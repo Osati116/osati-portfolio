@@ -1,0 +1,172 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const NAV_ITEMS = [
+  { label: "Works", href: "#works", sectionId: "works" },
+  { label: "Stack", href: "#stack", sectionId: "stack" },
+  { label: "About", href: "#about", sectionId: "about" },
+  { label: "Shop", href: "#shop", sectionId: "shop" },
+];
+
+export function Navbar() {
+  const [activeSection, setActiveSection] = React.useState<string>("home");
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
+  // Active section ScrollSpy tracking sections on scroll
+  React.useEffect(() => {
+    const sectionIds = ["home", "works", "stack", "about", "shop"];
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 220; // 220px offset for top viewport recognition
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollTo = (sectionId: string) => {
+    setMobileMenuOpen(false);
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      window.history.replaceState(null, "", `#${sectionId}`);
+      setActiveSection(sectionId);
+    } else {
+      window.location.href = `/#${sectionId}`;
+    }
+  };
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-3">
+        <nav className="relative flex items-center justify-between px-5 py-3 rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md border border-black dark:border-neutral-800 shadow-none">
+          {/* Pure Black Logo in Light Mode / Pure White in Dark Mode */}
+          <button 
+            onClick={() => scrollTo("home")}
+            className="flex items-center gap-2 group transition-transform active:scale-95 cursor-pointer"
+            aria-label="Osati Portfolio Home"
+          >
+            <div className="flex items-center">
+              <div
+                className="h-9 sm:h-10 w-28 sm:w-32 bg-black dark:bg-white transition-colors duration-200 group-hover:opacity-75"
+                style={{
+                  maskImage: "url(/logo.png)",
+                  WebkitMaskImage: "url(/logo.png)",
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center left",
+                  WebkitMaskPosition: "center left",
+                }}
+                role="img"
+                aria-label="Osati Logo"
+              />
+            </div>
+          </button>
+
+          {/* Desktop Navigation Links with real-time ScrollSpy pill highlighting */}
+          <div className="hidden md:flex items-center gap-2">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.sectionId;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollTo(item.sectionId);
+                  }}
+                  className={cn(
+                    "px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 xanh-mono-regular tracking-wide border cursor-pointer",
+                    isActive
+                      ? "text-black dark:text-white border-black dark:border-white bg-transparent font-semibold"
+                      : "text-black dark:text-neutral-300 border-transparent hover:border-black dark:hover:border-white bg-transparent"
+                  )}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Action Bar: Theme Switcher & Mobile Menu Toggle */}
+          <div className="flex items-center gap-2.5">
+            <ThemeToggle />
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2.5 rounded-full border border-black dark:border-neutral-800 bg-transparent text-black dark:text-white hover:opacity-70 transition-all cursor-pointer focus:outline-none"
+              aria-label="Toggle Navigation Menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5 text-black dark:text-white" /> : <Menu className="w-5 h-5 text-black dark:text-white" />}
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile Dropdown Menu with ScrollSpy indicators */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-2 p-3 rounded-2xl bg-white dark:bg-black backdrop-blur-2xl border border-black dark:border-neutral-800 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="flex flex-col gap-1">
+              <a
+                href="#home"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo("home");
+                }}
+                className={cn(
+                  "px-4 py-3 text-base font-medium rounded-xl transition-colors xanh-mono-regular border cursor-pointer",
+                  activeSection === "home"
+                    ? "border-black dark:border-white text-black dark:text-white font-semibold"
+                    : "border-transparent text-black dark:text-neutral-300 hover:border-black dark:hover:border-white"
+                )}
+              >
+                Home
+              </a>
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.sectionId;
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollTo(item.sectionId);
+                    }}
+                    className={cn(
+                      "px-4 py-3 text-base font-medium rounded-xl transition-colors xanh-mono-regular border cursor-pointer",
+                      isActive
+                        ? "border-black dark:border-white text-black dark:text-white font-semibold"
+                        : "border-transparent text-black dark:text-neutral-300 hover:border-black dark:hover:border-white"
+                    )}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}

@@ -1,0 +1,214 @@
+export interface ProjectItem {
+  id: string;
+  title: string;
+  year: string;
+  imageUrl: string;
+  description?: string;
+}
+
+export interface PortfolioCategory {
+  slug: string;
+  name: string;
+  tag: string;
+  coverImage: string;
+  subtitle: string;
+  description: string;
+  projects: ProjectItem[];
+}
+
+export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
+  {
+    slug: "brand-identity",
+    name: "Brand Identity",
+    tag: ".../2025",
+    coverImage: "https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=1200&q=80",
+    subtitle: "Visual systems & Monomarks",
+    description: "Complete visual identity design, comprehensive design tokens, embossed stationery, and spatial monomarks engineered for enduring recognition.",
+    projects: [
+      {
+        id: "bi-1",
+        title: "Aether Spatial Monomark",
+        year: "2025",
+        imageUrl: "https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=1200&q=80",
+        description: "Enterprise geometric branding system and modular design guidelines.",
+      },
+      {
+        id: "bi-2",
+        title: "Komorebi Visual Identity",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
+        description: "Minimalist Scandinavian architectural brand book & embossed collateral.",
+      },
+      {
+        id: "bi-3",
+        title: "Onyx Studio Guidelines",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
+        description: "Monochrome luxury identity system and custom packaging guidelines.",
+      },
+      {
+        id: "bi-4",
+        title: "Sora Creative Monogram",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+        description: "Dynamic responsive mark adapting across print, signage, and screen.",
+      },
+    ],
+  },
+  {
+    slug: "illustration",
+    name: "Illustration",
+    tag: ".../2024",
+    coverImage: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+    subtitle: "Monochrome vectors & silhouettes",
+    description: "Handcrafted high-contrast vector studies, architectural forms, and abstract silhouettes exploring light, shadow, and negative space.",
+    projects: [
+      {
+        id: "il-1",
+        title: "Chiaroscuro Silhouette Studies",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+        description: "Monochrome contrast studies investigating silhouette geometry and negative space.",
+      },
+      {
+        id: "il-2",
+        title: "Metropolis Vector Geometry",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+        description: "Abstract architectural isometric artwork rendered with mathematical precision.",
+      },
+      {
+        id: "il-3",
+        title: "Botanical Shadows Series",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1200&q=80",
+        description: "Minimalist organic silhouette series inspired by Japanese ink traditions.",
+      },
+      {
+        id: "il-4",
+        title: "Brutalist Monolith Forms",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+        description: "Heavy concrete geometric forms captured in minimalist line art.",
+      },
+    ],
+  },
+  {
+    slug: "fonts",
+    name: "Fonts",
+    tag: ".../2025",
+    coverImage: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
+    subtitle: "Custom type design & specimens",
+    description: "Display typography, editorial monospace typefaces, and variable font engineering designed for editorial titles, web apps, and publication covers.",
+    projects: [
+      {
+        id: "fn-1",
+        title: "Xanh Mono Specimen",
+        year: "2025",
+        imageUrl: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
+        description: "Editorial monospace typeface with pronounced serifs and fluid italics.",
+      },
+      {
+        id: "fn-2",
+        title: "Vesper Display Typeface",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
+        description: "High-contrast editorial serif display font with expansive ligature pairings.",
+      },
+      {
+        id: "fn-3",
+        title: "Brutalist Grotesk Variable",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80",
+        description: "Swiss-inspired grotesque with 9 weight axes and optical kerning sets.",
+      },
+      {
+        id: "fn-4",
+        title: "Stanza Editorial Serif",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1200&q=80",
+        description: "Literary book text typeface designed for high-legibility print settings.",
+      },
+    ],
+  },
+  {
+    slug: "marketing-design",
+    name: "Marketing Design",
+    tag: ".../2024",
+    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    subtitle: "Campaigns & Visual rollouts",
+    description: "Comprehensive marketing campaign design, key visuals, digital billboard rollouts, and launch assets driving brand adoption and conversion.",
+    projects: [
+      {
+        id: "md-1",
+        title: "Chronos Global Launch",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+        description: "Key visuals, outdoor digital displays, and high-impact digital campaign.",
+      },
+      {
+        id: "md-2",
+        title: "Nordic Sound Festival Campaign",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
+        description: "Event poster system, experiential signage, and social media collateral.",
+      },
+      {
+        id: "md-3",
+        title: "Lumina Visual Campaign",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1200&q=80",
+        description: "Digital product marketing suite with interactive product showroom teasers.",
+      },
+      {
+        id: "md-4",
+        title: "Kinesis Sport Visual Suite",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80",
+        description: "Dynamic athletic brand campaign featuring high-contrast typography in motion.",
+      },
+    ],
+  },
+  {
+    slug: "publication",
+    name: "Publication",
+    tag: ".../2024",
+    coverImage: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
+    subtitle: "Editorial books & Zines",
+    description: "Curated print publication design, multi-column editorial layout grids, hardcover monograph packaging, and brutalist design zines.",
+    projects: [
+      {
+        id: "pb-1",
+        title: "Archiv Scandinavian Monographs",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
+        description: "Hardcover editorial book design featuring Swiss typographic grid structures.",
+      },
+      {
+        id: "pb-2",
+        title: "Form & Void Magazine No. 03",
+        year: "2024",
+        imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1200&q=80",
+        description: "Brutalist typography zine with multi-column layouts and matte paper stock.",
+      },
+      {
+        id: "pb-3",
+        title: "Neue Spatial Journal",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80",
+        description: "Architectural bi-annual print edition with foil-stamped monochrome covers.",
+      },
+      {
+        id: "pb-4",
+        title: "Typographic Manifesto Folio",
+        year: "2023",
+        imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
+        description: "Limited-run boxed collection of experimental typographic broadsides.",
+      },
+    ],
+  },
+];
+
+export function getCategoryBySlug(slug: string): PortfolioCategory | undefined {
+  return PORTFOLIO_CATEGORIES.find((cat) => cat.slug === slug);
+}
