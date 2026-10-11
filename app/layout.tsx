@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -14,9 +14,56 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "Osati | Portfolio & Creative Works",
-  description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://osati-portfolio.vercel.app"),
+  title: {
+    default: "Osati | Portfolio & Creative Works",
+    template: "%s | Osati",
+  },
+  description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah — Creative Director & Brand Strategist.",
+  keywords: [
+    "Osati",
+    "Osahumhen Timothy Iyamah",
+    "Creative Director",
+    "Brand Strategist",
+    "Visual Identity",
+    "Design Engineering",
+    "Portfolio",
+  ],
+  authors: [{ name: "Osahumhen Timothy Iyamah", url: "https://github.com/Osati116" }],
+  creator: "Osahumhen Timothy Iyamah",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://osati-portfolio.vercel.app",
+    siteName: "Osati Portfolio",
+    title: "Osati | Portfolio & Creative Works",
+    description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah — Creative Director & Brand Strategist.",
+    images: [
+      {
+        url: "/portrait.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Osahumhen Timothy Iyamah - Creative Director & Brand Strategist",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Osati | Portfolio & Creative Works",
+    description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah.",
+    creator: "@osati116",
+    images: ["/portrait.jpg"],
+  },
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
