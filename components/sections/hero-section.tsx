@@ -64,12 +64,12 @@ export function HeroSection() {
               </svg>
             </motion.div>
 
-            {/* Primary left-aligned headline with subtle move-in animation */}
+            {/* Primary left-aligned headline with natural, elegant line spacing */}
             <motion.h1 
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(2.5rem,3.8vw,3.75rem)] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.08] mb-3.5 sm:mb-4"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[3.85rem] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.18] sm:leading-[1.16] mb-4 sm:mb-5 max-w-4xl"
             >
               Hi, I&apos;m Osahumhen Timothy Iyamah, a multidisciplinary designer, brand strategist, and creative director.
             </motion.h1>
@@ -79,7 +79,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-              className="text-base sm:text-xl md:text-2xl text-black dark:text-neutral-300 xanh-mono-regular-italic leading-snug max-w-2xl"
+              className="text-sm sm:text-base md:text-lg text-black dark:text-neutral-300 xanh-mono-regular-italic leading-relaxed max-w-2xl"
             >
               I specialize in transforming complex ideas into clean, functional, and visually striking digital experiences that drive growth.
             </motion.p>
@@ -87,7 +87,7 @@ export function HeroSection() {
 
           {/* Right-aligned Navigation Links to sections (Works, Stack, About, Shop) */}
           <div className="lg:col-span-4 flex flex-col items-end text-right justify-end pt-6 lg:pt-0">
-            <div className="flex flex-col items-end space-y-3 w-full">
+            <div className="flex flex-col items-end space-y-3 sm:space-y-4 w-full">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
@@ -96,16 +96,16 @@ export function HeroSection() {
                     e.preventDefault();
                     scrollTo(link.href.replace("#", ""));
                   }}
-                  className="group inline-flex items-center justify-end gap-3 text-2xl sm:text-3xl md:text-4xl font-normal text-black dark:text-white xanh-mono-regular hover:opacity-60 transition-all cursor-pointer"
+                  className="group inline-flex items-center justify-end gap-2.5 text-lg sm:text-xl md:text-2xl font-normal text-black dark:text-white xanh-mono-regular hover:opacity-60 transition-all cursor-pointer"
                 >
                   <span className="relative">
                     {link.label}
                     <span className="absolute left-0 -bottom-1 w-0 h-[1.5px] bg-black dark:bg-white transition-all duration-300 group-hover:w-full" />
                   </span>
-                  <span className="text-xs xanh-mono-regular px-2 py-0.5 rounded-full border border-black dark:border-neutral-800 text-black dark:text-neutral-300 group-hover:border-black dark:group-hover:border-white transition-colors">
+                  <span className="text-[10px] sm:text-xs xanh-mono-regular px-2 py-0.5 rounded-full border border-black dark:border-neutral-800 text-black dark:text-neutral-300 group-hover:border-black dark:group-hover:border-white transition-colors">
                     {link.tag}
                   </span>
-                  <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 text-black dark:text-white transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </a>
               ))}
             </div>
