@@ -35,16 +35,16 @@ export function HeroSection() {
         className="max-w-7xl mx-auto w-full mt-2 sm:mt-4 md:mt-6 mb-auto origin-center will-change-transform"
       >
         {/* Main content grid: Left-aligned biography & Right-aligned page navigation index */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-end w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-stretch w-full">
           
           {/* Left-aligned Biography statement */}
-          <div className="lg:col-span-8 text-left select-text">
-            {/* Status outline badge sitting closer to the headline */}
+          <div className="lg:col-span-8 text-left select-text flex flex-col justify-between">
+            {/* Status outline badge */}
             <motion.div 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-400 mb-3 sm:mb-4"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-400 mb-6 self-start"
             >
               <span>Creative Director & Brand Strategist</span>
               <svg
@@ -64,34 +64,37 @@ export function HeroSection() {
               </svg>
             </motion.div>
 
-            {/* Primary left-aligned headline with subtle move-in animation */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.08] mb-3.5 sm:mb-4"
-            >
-              Hi, I&apos;m Osahumhen Timothy Iyamah, a multidisciplinary designer, brand strategist, and creative director.
-            </motion.h1>
+            {/* Opening paragraph & smaller note anchored to bottom to match last item in directory index */}
+            <div className="mt-auto flex flex-col justify-end">
+              {/* Primary left-aligned headline with subtle move-in animation */}
+              <motion.h1 
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.08] mb-3.5 sm:mb-4"
+              >
+                Hi, I&apos;m Osahumhen Timothy Iyamah, a multidisciplinary designer, brand strategist, and creative director.
+              </motion.h1>
 
-            {/* Secondary left-aligned description with gentle move-in */}
-            <motion.p 
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-              className="text-base sm:text-xl md:text-2xl text-black dark:text-neutral-300 xanh-mono-regular-italic leading-snug max-w-2xl"
-            >
-              I specialize in transforming complex ideas into clean, functional, and visually striking digital experiences that drive growth.
-            </motion.p>
+              {/* Secondary left-aligned description with gentle move-in */}
+              <motion.p 
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                className="text-base sm:text-xl md:text-2xl text-black dark:text-neutral-300 xanh-mono-regular-italic leading-snug max-w-2xl"
+              >
+                I specialize in transforming complex ideas into clean, functional, and visually striking digital experiences that drive growth.
+              </motion.p>
+            </div>
           </div>
 
           {/* Right-aligned Navigation Links to sections */}
-          <div className="lg:col-span-4 flex flex-col items-end text-right justify-end space-y-4 pt-6 lg:pt-0">
-            <span className="text-xs uppercase tracking-widest text-black dark:text-neutral-400 xanh-mono-regular mb-2 font-semibold">
+          <div className="lg:col-span-4 flex flex-col items-end text-right justify-between pt-6 lg:pt-0">
+            <span className="text-xs uppercase tracking-widest text-black dark:text-neutral-400 xanh-mono-regular mb-4 font-semibold self-end">
               Directory Index
             </span>
             
-            <div className="flex flex-col items-end space-y-3 w-full">
+            <div className="flex flex-col items-end space-y-3 w-full mt-auto">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
