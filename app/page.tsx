@@ -30,8 +30,8 @@ export default function HomePage() {
       {/* Persistent Infinite Grid Background with 50% opacity hover mesh and cursor spotlight */}
       <TheInfiniteGrid monochrome={true} fixedBackground={true} />
 
-      {/* Main continuous scrollable stream */}
-      <main className="relative z-10 w-full flex flex-col">
+      {/* Main continuous scrollable stream shifted 10px downward */}
+      <main className="relative z-10 w-full flex flex-col pt-[10px]">
         {/* Section 00: Home Hero & Editorial Bio */}
         <HeroSection />
 
