@@ -43,7 +43,7 @@ export function FooterSection() {
               className="flex items-center cursor-pointer group transition-transform active:scale-95"
               aria-label="Back to home top"
             >
-              <OsatiLogo className="h-7 sm:h-8 w-auto group-hover:opacity-75" />
+              <OsatiLogo className="h-[21px] sm:h-6 w-auto group-hover:opacity-75" />
             </button>
             <p className="text-xs text-black dark:text-neutral-400 xanh-mono-regular text-center md:text-left">
               Crafted with Next.js App Router, Tailwind CSS & The Infinite Grid.

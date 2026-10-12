@@ -58,13 +58,13 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-3">
         <nav className="relative flex items-center justify-between px-5 py-3 rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md border border-black dark:border-neutral-800 shadow-none">
-          {/* Adaptive Vector SVG Wordmark Logo */}
+          {/* Adaptive Vector SVG Wordmark Logo (scaled to 75%) */}
           <button 
             onClick={() => scrollTo("home")}
             className="flex items-center group transition-transform active:scale-95 cursor-pointer"
             aria-label="Osati Portfolio Home"
           >
-            <OsatiLogo className="h-8 sm:h-9 w-auto group-hover:opacity-75" />
+            <OsatiLogo className="h-6 sm:h-[27px] w-auto group-hover:opacity-75" />
           </button>
 
           {/* Desktop Navigation Links with real-time ScrollSpy pill highlighting */}
