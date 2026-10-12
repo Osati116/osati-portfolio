@@ -23,7 +23,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-xanh: "Xanh Mono", monospace;
+  --font-mono: var(--font-outfit), "Outfit", monospace;
+  --font-xanh: var(--font-outfit), "Outfit", sans-serif;
+  --font-outfit: var(--font-outfit), "Outfit", sans-serif;
 }
 
 :root {
@@ -94,21 +96,29 @@ body {
   min-height: 100vh;
 }
 
-/* User specified font classes */
-.xanh-mono-regular {
-  font-family: "Xanh Mono", monospace;
+/* Monospace and custom font classes mapped to Outfit font sitewide */
+.xanh-mono-regular,
+.font-outfit-regular {
+  font-family: var(--font-outfit), "Outfit", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.xanh-mono-regular-italic {
-  font-family: "Xanh Mono", monospace;
+.xanh-mono-regular-italic,
+.font-outfit-italic {
+  font-family: var(--font-outfit), "Outfit", sans-serif;
   font-weight: 400;
   font-style: italic;
 }
 
-.font-xanh {
-  font-family: "Xanh Mono", monospace;
+.font-xanh,
+.font-outfit {
+  font-family: var(--font-outfit), "Outfit", sans-serif;
+}
+
+/* Ensure any Tailwind .font-mono class uses Outfit */
+.font-mono {
+  font-family: var(--font-outfit), "Outfit", monospace !important;
 }
 
 /* Fluid typography utilities */
