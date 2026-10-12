@@ -28,11 +28,11 @@ export function HeroSection() {
     <section 
       ref={sectionRef}
       id="home" 
-      className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-end items-center px-6 sm:px-10 lg:px-12 pt-24 sm:pt-32 md:pt-40 lg:pt-48 pb-8 sm:pb-10 md:pb-12 scroll-mt-20 overflow-hidden"
+      className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 md:pt-8 pb-10 sm:pb-14 md:pb-16 scroll-mt-20 overflow-hidden"
     >
       <motion.div 
         style={{ scale, opacity }} 
-        className="max-w-7xl mx-auto w-full mt-auto mb-2 sm:mb-4 origin-center will-change-transform"
+        className="max-w-7xl mx-auto w-full my-auto origin-center will-change-transform"
       >
         {/* Main content grid: Left-aligned biography & Right-aligned page navigation index */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-end w-full">
@@ -69,7 +69,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.08] mb-3.5 sm:mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(2.5rem,3.8vw,3.75rem)] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.08] mb-3.5 sm:mb-4"
             >
               Hi, I&apos;m Osahumhen Timothy Iyamah, a multidisciplinary designer, brand strategist, and creative director.
             </motion.h1>
