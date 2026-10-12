@@ -4,6 +4,7 @@ import * as React from "react";
 import { ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSectionScrollTransition } from "@/lib/scroll-transition";
+import { OsatiLogo } from "@/components/logo";
 
 const FOOTER_LINKS = [
   { label: "Home", href: "#home" },
@@ -39,24 +40,10 @@ export function FooterSection() {
           <div className="flex flex-col items-center md:items-start space-y-3">
             <button
               onClick={() => scrollTo("home")}
-              className="flex items-center cursor-pointer group"
+              className="flex items-center cursor-pointer group transition-transform active:scale-95"
               aria-label="Back to home top"
             >
-              <div
-                className="h-8 w-28 bg-black dark:bg-white transition-opacity duration-200 group-hover:opacity-75"
-                style={{
-                  maskImage: "url(/logo.png)",
-                  WebkitMaskImage: "url(/logo.png)",
-                  maskSize: "contain",
-                  WebkitMaskSize: "contain",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskPosition: "center left",
-                  WebkitMaskPosition: "center left",
-                }}
-                role="img"
-                aria-label="Osati Logo"
-              />
+              <OsatiLogo className="h-7 sm:h-8 w-auto group-hover:opacity-75" />
             </button>
             <p className="text-xs text-black dark:text-neutral-400 xanh-mono-regular text-center md:text-left">
               Crafted with Next.js App Router, Tailwind CSS & The Infinite Grid.

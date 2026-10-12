@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { OsatiLogo } from "@/components/logo";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -57,29 +58,13 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-3">
         <nav className="relative flex items-center justify-between px-5 py-3 rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md border border-black dark:border-neutral-800 shadow-none">
-          {/* Pure Black Logo in Light Mode / Pure White in Dark Mode */}
+          {/* Adaptive Vector SVG Wordmark Logo */}
           <button 
             onClick={() => scrollTo("home")}
-            className="flex items-center gap-2 group transition-transform active:scale-95 cursor-pointer"
+            className="flex items-center group transition-transform active:scale-95 cursor-pointer"
             aria-label="Osati Portfolio Home"
           >
-            <div className="flex items-center">
-              <div
-                className="h-9 sm:h-10 w-28 sm:w-32 bg-black dark:bg-white transition-colors duration-200 group-hover:opacity-75"
-                style={{
-                  maskImage: "url(/logo.png)",
-                  WebkitMaskImage: "url(/logo.png)",
-                  maskSize: "contain",
-                  WebkitMaskSize: "contain",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskPosition: "center left",
-                  WebkitMaskPosition: "center left",
-                }}
-                role="img"
-                aria-label="Osati Logo"
-              />
-            </div>
+            <OsatiLogo className="h-8 sm:h-9 w-auto group-hover:opacity-75" />
           </button>
 
           {/* Desktop Navigation Links with real-time ScrollSpy pill highlighting */}
