@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { label: "Stack", href: "#stack", sectionId: "stack" },
   { label: "About", href: "#about", sectionId: "about" },
   { label: "Shop", href: "#shop", sectionId: "shop" },
+  { label: "Connect", href: "#connect", sectionId: "connect" },
 ];
 
 export function Navbar() {
@@ -20,7 +21,7 @@ export function Navbar() {
 
   // Active section ScrollSpy tracking sections on scroll
   React.useEffect(() => {
-    const sectionIds = ["home", "works", "stack", "about", "shop"];
+    const sectionIds = ["home", "works", "stack", "about", "shop", "connect"];
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 220; // 220px offset for top viewport recognition
@@ -44,6 +45,12 @@ export function Navbar() {
 
   const scrollTo = (sectionId: string) => {
     setMobileMenuOpen(false);
+    if (sectionId === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(null, "", "/");
+      setActiveSection("home");
+      return;
+    }
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -57,7 +64,7 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-3">
-        <nav className="relative flex items-center justify-between px-5 py-3 rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md border border-black dark:border-neutral-800 shadow-none">
+        <nav className="relative flex items-center justify-between px-5 py-3 rounded-2xl bg-white/70 dark:bg-black/70 backdrop-blur-md border-0 shadow-none">
           {/* Adaptive Vector SVG Wordmark Logo (scaled to 75%) */}
           <button 
             onClick={() => scrollTo("home")}
@@ -67,8 +74,8 @@ export function Navbar() {
             <OsatiLogo className="h-6 sm:h-[27px] w-auto group-hover:opacity-75" />
           </button>
 
-          {/* Desktop Navigation Links with real-time ScrollSpy pill highlighting */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Desktop Navigation Links with real-time ScrollSpy highlighting (no surrounding rectangles) */}
+          <div className="hidden md:flex items-center gap-1 sm:gap-2">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.sectionId;
               return (
@@ -80,10 +87,10 @@ export function Navbar() {
                     scrollTo(item.sectionId);
                   }}
                   className={cn(
-                    "px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 xanh-mono-regular tracking-wide border cursor-pointer",
+                    "px-3 py-1.5 text-sm font-medium transition-colors duration-200 xanh-mono-regular tracking-wide cursor-pointer",
                     isActive
-                      ? "text-black dark:text-white border-black dark:border-white bg-transparent font-semibold"
-                      : "text-black dark:text-neutral-300 border-transparent hover:border-black dark:hover:border-white bg-transparent"
+                      ? "text-black dark:text-white font-semibold"
+                      : "text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white"
                   )}
                 >
                   {item.label}
@@ -93,13 +100,13 @@ export function Navbar() {
           </div>
 
           {/* Action Bar: Theme Switcher & Mobile Menu Toggle */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <ThemeToggle />
 
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-full border border-black dark:border-neutral-800 bg-transparent text-black dark:text-white hover:opacity-70 transition-all cursor-pointer focus:outline-none"
+              className="md:hidden p-2 rounded-full border-0 bg-transparent text-black dark:text-white hover:opacity-70 transition-all cursor-pointer focus:outline-none"
               aria-label="Toggle Navigation Menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -110,7 +117,7 @@ export function Navbar() {
 
         {/* Mobile Dropdown Menu with ScrollSpy indicators */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 p-3 rounded-2xl bg-white dark:bg-black backdrop-blur-2xl border border-black dark:border-neutral-800 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="md:hidden mt-2 p-3 rounded-2xl bg-white dark:bg-black backdrop-blur-2xl border-0 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col gap-1">
               <a
                 href="#home"
@@ -119,10 +126,10 @@ export function Navbar() {
                   scrollTo("home");
                 }}
                 className={cn(
-                  "px-4 py-3 text-base font-medium rounded-xl transition-colors xanh-mono-regular border cursor-pointer",
+                  "px-4 py-2.5 text-base font-medium rounded-xl transition-colors xanh-mono-regular cursor-pointer",
                   activeSection === "home"
-                    ? "border-black dark:border-white text-black dark:text-white font-semibold"
-                    : "border-transparent text-black dark:text-neutral-300 hover:border-black dark:hover:border-white"
+                    ? "text-black dark:text-white font-semibold"
+                    : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
                 )}
               >
                 Home
@@ -138,10 +145,10 @@ export function Navbar() {
                       scrollTo(item.sectionId);
                     }}
                     className={cn(
-                      "px-4 py-3 text-base font-medium rounded-xl transition-colors xanh-mono-regular border cursor-pointer",
+                      "px-4 py-2.5 text-base font-medium rounded-xl transition-colors xanh-mono-regular cursor-pointer",
                       isActive
-                        ? "border-black dark:border-white text-black dark:text-white font-semibold"
-                        : "border-transparent text-black dark:text-neutral-300 hover:border-black dark:hover:border-white"
+                        ? "text-black dark:text-white font-semibold"
+                        : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
                     )}
                   >
                     {item.label}

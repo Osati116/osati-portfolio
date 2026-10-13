@@ -12,6 +12,94 @@ const NAV_LINKS = [
   { label: "Shop", href: "#shop", tag: "04" },
 ];
 
+function DesktopTypingName({ name = "Osahumhen Timothy Iyamah," }: { name?: string }) {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [displayText, setDisplayText] = React.useState(name);
+
+  React.useEffect(() => {
+    if (!isHovered) {
+      setDisplayText(name);
+      return;
+    }
+
+    let isCancelled = false;
+    let timeoutId: NodeJS.Timeout;
+
+    let currentIndex = 0;
+    let mode: "typing" | "pausing_full" | "deleting" | "pausing_empty" = "typing";
+    setDisplayText("");
+
+    const tick = () => {
+      if (isCancelled) return;
+
+      if (mode === "typing") {
+        if (currentIndex < name.length) {
+          currentIndex++;
+          setDisplayText(name.slice(0, currentIndex));
+          timeoutId = setTimeout(tick, 55);
+        } else {
+          mode = "pausing_full";
+          timeoutId = setTimeout(tick, 900);
+        }
+      } else if (mode === "pausing_full") {
+        mode = "deleting";
+        timeoutId = setTimeout(tick, 28);
+      } else if (mode === "deleting") {
+        if (currentIndex > 0) {
+          currentIndex--;
+          setDisplayText(name.slice(0, currentIndex));
+          timeoutId = setTimeout(tick, 28);
+        } else {
+          mode = "pausing_empty";
+          timeoutId = setTimeout(tick, 300);
+        }
+      } else if (mode === "pausing_empty") {
+        mode = "typing";
+        timeoutId = setTimeout(tick, 55);
+      }
+    };
+
+    timeoutId = setTimeout(tick, 40);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [isHovered, name]);
+
+  return (
+    <span
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative inline-block cursor-pointer select-text"
+      aria-label={name}
+    >
+      {/* Invisible layout placeholder so line wrapping and width never shift */}
+      <span className="invisible pointer-events-none select-none" aria-hidden="true">
+        {name}
+      </span>
+      {/* Dynamic typing text */}
+      <span className="absolute left-0 top-0 whitespace-nowrap">
+        {displayText}
+        {isHovered && (
+          <span className="inline-block ml-0.5 font-light animate-pulse text-black dark:text-white">
+            |
+          </span>
+        )}
+      </span>
+    </span>
+  );
+}
+
+function SweepingRole({ text }: { text: string }) {
+  return (
+    <span className="group relative inline-block cursor-pointer">
+      <span>{text}</span>
+      <span className="absolute left-0 -bottom-0.5 sm:-bottom-1 w-0 h-[1.5px] sm:h-[2px] bg-black dark:bg-white transition-all duration-300 ease-out group-hover:w-full pointer-events-none" />
+    </span>
+  );
+}
+
 export function HeroSection() {
   const sectionRef = React.useRef<HTMLElement>(null);
   const { scale, opacity } = useSectionScrollTransition(sectionRef, { isFirst: true });
@@ -28,24 +116,25 @@ export function HeroSection() {
     <section 
       ref={sectionRef}
       id="home" 
-      className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 md:pt-8 pb-10 sm:pb-14 md:pb-16 scroll-mt-20 overflow-hidden"
+      className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center pt-4 sm:pt-6 md:pt-8 pb-10 sm:pb-14 md:pb-16 scroll-mt-20 overflow-hidden"
     >
       <motion.div 
         style={{ scale, opacity }} 
-        className="max-w-7xl mx-auto w-full my-auto origin-center will-change-transform"
+        className="max-w-7xl mx-auto w-full my-auto px-4 sm:px-6 lg:px-8 origin-center will-change-transform"
       >
-        {/* Main content grid: Left-aligned biography & Right-aligned page navigation index */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-end w-full">
-          
-          {/* Left-aligned Biography statement */}
-          <div className="lg:col-span-8 text-left select-text flex flex-col justify-end">
-            {/* Status outline badge sitting closer to the headline */}
-            <motion.div 
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-400 mb-3.5 sm:mb-4 self-start"
-            >
+        {/* Main content grid container matching exact navbar px-5 padding */}
+        <div className="px-5 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-end w-full">
+            
+            {/* Left-aligned Biography statement */}
+            <div className="lg:col-span-8 text-left select-text flex flex-col justify-end">
+              {/* Status badge with first letter 'C' flush aligned with headline and navbar logo */}
+              <motion.div 
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                className="inline-flex items-center gap-1.5 pl-0 pr-3.5 py-1 text-xs xanh-mono-regular text-black dark:text-neutral-400 mb-3.5 sm:mb-4 self-start transition-all duration-300 hover:opacity-75 cursor-default"
+              >
               <span>Creative Director & Brand Strategist</span>
               <svg
                 viewBox="0 0 24 24"
@@ -64,22 +153,50 @@ export function HeroSection() {
               </svg>
             </motion.div>
 
-            {/* Primary left-aligned headline with natural, elegant line spacing */}
+            {/* Primary left-aligned headline with mobile-optimized line breaks and sweeping underlines */}
             <motion.h1 
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[3.85rem] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.18] sm:leading-[1.16] mb-4 sm:mb-5 max-w-4xl"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[3.85rem] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.2] sm:leading-[1.16] mb-4 sm:mb-5 max-w-4xl cursor-default select-text"
             >
-              Hi, I&apos;m Osahumhen Timothy Iyamah, a multidisciplinary designer, brand strategist, and creative director.
+              <span className="block transition-opacity duration-200 hover:opacity-60">
+                Hi, I&apos;m
+              </span>
+              {/* Mobile name breakdown (3 separate lines, clean and static) */}
+              <span className="block sm:hidden">
+                <span className="block">Osahumhen</span>
+                <span className="block">Timothy</span>
+                <span className="block">Iyamah,</span>
+              </span>
+
+              {/* Desktop name with interactive typewriter animation on hover */}
+              <span className="hidden sm:block">
+                <DesktopTypingName name="Osahumhen Timothy Iyamah," />
+              </span>
+              <span className="block">
+                <span className="block sm:inline">
+                  <span>a </span>
+                  <SweepingRole text="multidisciplinary designer" />
+                  <span>, </span>
+                </span>
+                <span className="block sm:inline">
+                  <SweepingRole text="brand strategist" />
+                  <span>, and </span>
+                </span>
+                <span className="block sm:inline">
+                  <SweepingRole text="creative director" />
+                  <span>.</span>
+                </span>
+              </span>
             </motion.h1>
 
-            {/* Secondary left-aligned description with gentle move-in */}
+            {/* Secondary left-aligned description with responsive hover */}
             <motion.p 
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-              className="text-sm sm:text-base md:text-lg text-black dark:text-neutral-300 xanh-mono-regular-italic leading-relaxed max-w-2xl"
+              className="text-sm sm:text-base md:text-lg text-black dark:text-neutral-300 xanh-mono-regular-italic leading-relaxed max-w-2xl transition-opacity duration-300 hover:opacity-60 cursor-default"
             >
               I specialize in transforming complex ideas into clean, functional, and visually striking digital experiences that drive growth.
             </motion.p>
@@ -102,7 +219,7 @@ export function HeroSection() {
                     {link.label}
                     <span className="absolute left-0 -bottom-1 w-0 h-[1.5px] bg-black dark:bg-white transition-all duration-300 group-hover:w-full" />
                   </span>
-                  <span className="text-[10px] sm:text-xs xanh-mono-regular px-2 py-0.5 rounded-full border border-black dark:border-neutral-800 text-black dark:text-neutral-300 group-hover:border-black dark:group-hover:border-white transition-colors">
+                  <span className="text-[10px] sm:text-xs xanh-mono-regular px-2 py-0.5 rounded-full border-0 bg-neutral-100 dark:bg-neutral-900 text-black dark:text-neutral-300 transition-colors">
                     {link.tag}
                   </span>
                   <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-black dark:text-white transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -111,6 +228,7 @@ export function HeroSection() {
             </div>
           </div>
 
+        </div>
         </div>
       </motion.div>
     </section>

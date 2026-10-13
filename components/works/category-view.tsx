@@ -77,11 +77,11 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       {/* Navigation Breadcrumb & Back Link */}
       <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
         <Link
-          href="/#works"
+          href="/"
           className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
-          <span>Back to All Works</span>
+          <span>Back to Home</span>
         </Link>
 
         {/* Category Switcher Tabs */}
@@ -131,11 +131,11 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       {/* Bottom Navigation */}
       <div className="mt-20 pt-8 flex items-center justify-start">
         <Link
-          href="/#works"
+          href="/"
           className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
-          <span>Return to Homepage Portfolio</span>
+          <span>Return to Homepage</span>
         </Link>
       </div>
     </div>

@@ -12,6 +12,7 @@ const FOOTER_LINKS = [
   { label: "Stack", href: "#stack" },
   { label: "About", href: "#about" },
   { label: "Shop", href: "#shop" },
+  { label: "Connect", href: "#connect" },
 ];
 
 export function FooterSection() {
@@ -19,6 +20,11 @@ export function FooterSection() {
   const { scale, opacity } = useSectionScrollTransition(sectionRef, { isLast: true });
 
   const scrollTo = (id: string) => {
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(null, "", "/");
+      return;
+    }
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -71,7 +77,7 @@ export function FooterSection() {
           <div className="flex items-center">
             <button
               onClick={() => scrollTo("home")}
-              className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
+              className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border-0 bg-neutral-200/60 dark:bg-neutral-800/60 text-xs xanh-mono-regular text-black dark:text-neutral-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
               aria-label="Scroll back to top"
             >
               <span>Back to Top</span>

@@ -94,40 +94,40 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     ],
   },
   {
-    slug: "fonts",
-    name: "Fonts",
+    slug: "web-design",
+    name: "Web Design",
     tag: ".../2025",
-    coverImage: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
-    subtitle: "Custom type design & specimens",
-    description: "Display typography, editorial monospace typefaces, and variable font engineering designed for editorial titles, web apps, and publication covers.",
+    coverImage: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
+    subtitle: "Digital experiences & interface design",
+    description: "Responsive web design, digital architecture, interactive prototypes, and modern editorial web experiences built with clean visual hierarchy.",
     projects: [
       {
-        id: "fn-1",
-        title: "Xanh Mono Specimen",
+        id: "wd-1",
+        title: "Kroma Studio Web Experience",
         year: "2025",
-        imageUrl: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
-        description: "Editorial monospace typeface with pronounced serifs and fluid italics.",
+        imageUrl: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
+        description: "Editorial interactive portfolio and spatial web layout for an architecture studio.",
       },
       {
-        id: "fn-2",
-        title: "Vesper Display Typeface",
+        id: "wd-2",
+        title: "Vesper Editorial Digital Platform",
         year: "2024",
-        imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
-        description: "High-contrast editorial serif display font with expansive ligature pairings.",
+        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+        description: "High-contrast editorial web publication with fluid typography and dark mode systems.",
       },
       {
-        id: "fn-3",
-        title: "Brutalist Grotesk Variable",
+        id: "wd-3",
+        title: "Brutalist Archive Web Experience",
         year: "2023",
         imageUrl: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80",
-        description: "Swiss-inspired grotesque with 9 weight axes and optical kerning sets.",
+        description: "Minimalist web archive exploring raw grid geometries and reactive micro-interactions.",
       },
       {
-        id: "fn-4",
-        title: "Stanza Editorial Serif",
+        id: "wd-4",
+        title: "Stanza Publishing Digital Showcase",
         year: "2023",
-        imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1200&q=80",
-        description: "Literary book text typeface designed for high-legibility print settings.",
+        imageUrl: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1200&q=80",
+        description: "Modern digital catalog and interactive reading interface for indie art books.",
       },
     ],
   },
@@ -210,5 +210,9 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
 ];
 
 export function getCategoryBySlug(slug: string): PortfolioCategory | undefined {
+  const normalized = slug.toLowerCase();
+  if (normalized === "fonts" || normalized === "web") {
+    return PORTFOLIO_CATEGORIES.find((cat) => cat.slug === "web-design");
+  }
   return PORTFOLIO_CATEGORIES.find((cat) => cat.slug === slug);
 }

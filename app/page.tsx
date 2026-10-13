@@ -7,21 +7,36 @@ import { WorksSection } from "@/components/sections/works-section";
 import { StackSection } from "@/components/sections/stack-section";
 import { AboutSection } from "@/components/sections/about-section";
 import { ShopSection } from "@/components/sections/shop-section";
+import { ConnectSection } from "@/components/sections/connect-section";
 import { FooterSection } from "@/components/sections/footer-section";
 
 export default function HomePage() {
-  // Smoothly scroll to target section if an initial hash exists in the URL
+  // Ensure the website always boots at the top Home section
   React.useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash) {
-      const targetId = window.location.hash.replace("#", "");
-      // Small timeout to allow full DOM render before scrolling
-      const timer = setTimeout(() => {
-        const el = document.getElementById(targetId);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      // Disable browser automatic scroll restoration to prevent booting mid-page
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      // If landing on root or with stale #home/#works hash on boot, reset to top
+      const hash = window.location.hash;
+      if (!hash || hash === "#" || hash === "#home" || hash === "#works") {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        if (hash) {
+          window.history.replaceState(null, "", window.location.pathname);
         }
-      }, 100);
-      return () => clearTimeout(timer);
+      } else {
+        // Specific deep-link hash requested (e.g. #stack, #about, #shop, #connect)
+        const targetId = hash.replace("#", "");
+        const timer = setTimeout(() => {
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+        return () => clearTimeout(timer);
+      }
     }
   }, []);
 
@@ -30,8 +45,8 @@ export default function HomePage() {
       {/* Persistent Infinite Grid Background with 50% opacity hover mesh and cursor spotlight */}
       <TheInfiniteGrid monochrome={true} fixedBackground={true} />
 
-      {/* Main continuous scrollable stream shifted 10px downward */}
-      <main className="relative z-10 w-full flex flex-col pt-[10px]">
+      {/* Main continuous scrollable stream shifted 30px downward */}
+      <main className="relative z-10 w-full flex flex-col pt-[30px]">
         {/* Section 00: Home Hero & Editorial Bio */}
         <HeroSection />
 
@@ -46,6 +61,9 @@ export default function HomePage() {
 
         {/* Section 04: Digital Store & Products */}
         <ShopSection />
+
+        {/* Section 05: Connect with Me */}
+        <ConnectSection />
 
         {/* Footer & Back-to-Top Navigation */}
         <FooterSection />

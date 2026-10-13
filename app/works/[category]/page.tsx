@@ -11,9 +11,14 @@ interface PageProps {
 }
 
 export function generateStaticParams() {
-  return PORTFOLIO_CATEGORIES.map((cat) => ({
+  const baseSlugs = PORTFOLIO_CATEGORIES.map((cat) => ({
     category: cat.slug,
   }));
+  return [
+    ...baseSlugs,
+    { category: "fonts" },
+    { category: "web" },
+  ];
 }
 
 export default async function CategoryPage({ params }: PageProps) {

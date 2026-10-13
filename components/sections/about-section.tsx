@@ -66,7 +66,7 @@ export function AboutSection() {
             </div>
 
             {/* Newspaper Caption Underneath */}
-            <div className="pt-2 flex items-baseline justify-between text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
+            <div className="pt-2 flex items-baseline justify-between text-[11px] xanh-mono-regular not-italic text-neutral-500 dark:text-neutral-400">
               <span className="uppercase tracking-wider">Fig. 01 / Portrait</span>
               <span>{LEAD_PORTRAIT.year}</span>
             </div>
@@ -75,23 +75,23 @@ export function AboutSection() {
           {/* Shifted Text to the Right with Fluid Newspaper Text Wrap */}
           <div>
             {/* Header */}
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular mb-4 sm:mb-6 leading-[1.1]">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular not-italic mb-4 sm:mb-6 leading-[1.1]">
               About Me
             </h2>
             
-            <p className="text-lg sm:text-2xl text-black dark:text-neutral-100 xanh-mono-regular leading-snug mb-3.5 sm:mb-4">
+            <p className="text-base sm:text-lg text-black dark:text-neutral-100 xanh-mono-regular not-italic leading-relaxed mb-4">
               I am Osahumhen Timothy Iyamah, a multidisciplinary designer, brand strategist, and creative director obsessed with editorial precision, compelling visual language, and brand systems that endure.
             </p>
 
-            <p className="text-base sm:text-lg text-black dark:text-neutral-300 xanh-mono-regular-italic leading-snug mb-3.5 sm:mb-4">
+            <p className="text-base sm:text-lg text-black dark:text-neutral-300 xanh-mono-regular not-italic leading-relaxed mb-4">
               Over the past several years, I have worked across brand identity, publication layouts, illustration, and digital experiences—translating abstract ideas into tangible, high-impact aesthetics. My process is rooted in reduction, deep research, and architectural rigor: balancing timeless design thinking with modern digital toolchains to build identities that command attention and stand the test of time.
             </p>
 
-            <p className="text-sm sm:text-base text-neutral-700 dark:text-neutral-400 leading-snug mb-5">
+            <p className="text-base sm:text-lg text-neutral-700 dark:text-neutral-400 xanh-mono-regular not-italic leading-relaxed mb-5">
               Whether directing comprehensive brand campaigns or crafting bespoke visual identities, I approach every brief with the belief that design should provoke thought, create clarity, and outlive fleeting trends.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-neutral-500 dark:text-neutral-400 pt-1">
+            <div className="flex flex-wrap items-center gap-4 text-xs xanh-mono-regular not-italic text-neutral-500 dark:text-neutral-400 pt-1">
               <span>Available for Select Commissions</span>
               <span>•</span>
               <span>Brand Identity & Design Systems</span>
@@ -131,12 +131,12 @@ export function AboutSection() {
             </div>
             <div className="p-4 sm:p-6 bg-neutral-900 border-t border-neutral-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-white">
               <div>
-                <h3 className="text-lg font-medium">{selectedPhoto.title}</h3>
-                <p className="text-sm text-neutral-400 mt-0.5">
+                <h3 className="text-lg font-medium xanh-mono-regular not-italic">{selectedPhoto.title}</h3>
+                <p className="text-sm text-neutral-400 mt-0.5 xanh-mono-regular not-italic">
                   {selectedPhoto.caption}
                 </p>
               </div>
-              <div className="text-xs font-mono text-neutral-400 bg-neutral-800 px-3 py-1.5 rounded-lg">
+              <div className="text-xs xanh-mono-regular not-italic text-neutral-400 bg-neutral-800 px-3 py-1.5 rounded-lg">
                 {selectedPhoto.year}
               </div>
             </div>

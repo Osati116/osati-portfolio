@@ -16,6 +16,7 @@ interface InfiniteGridProps {
   monochrome?: boolean;
   fixedBackground?: boolean;
   gridSize?: number;
+  showGridLines?: boolean;
 }
 
 export const TheInfiniteGrid = ({
@@ -25,6 +26,7 @@ export const TheInfiniteGrid = ({
   monochrome = true,
   fixedBackground = false,
   gridSize = 10,
+  showGridLines = false,
 }: InfiniteGridProps) => {
   const [count, setCount] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,18 +86,22 @@ export const TheInfiniteGrid = ({
         className
       )}
     >
-      {/* Baseline ambient grid - pure bright background with delicate crisp mesh */}
-      <div className="absolute inset-0 z-0 opacity-25 dark:opacity-20 pointer-events-none">
-        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} gridSize={gridSize} isHighlighted={false} />
-      </div>
+      {/* Baseline ambient grid - conditionally rendered */}
+      {showGridLines && (
+        <div className="absolute inset-0 z-0 opacity-25 dark:opacity-20 pointer-events-none">
+          <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} gridSize={gridSize} isHighlighted={false} />
+        </div>
+      )}
 
-      {/* Subtle cursor-following reveal layer reduced to 25% opacity (50% of previous 50%) */}
-      <motion.div 
-        className="absolute inset-0 z-0 opacity-25 dark:opacity-25 pointer-events-none"
-        style={{ maskImage, WebkitMaskImage: maskImage }}
-      >
-        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} gridSize={gridSize} isHighlighted={true} />
-      </motion.div>
+      {/* Subtle cursor-following reveal layer */}
+      {showGridLines && (
+        <motion.div 
+          className="absolute inset-0 z-0 opacity-25 dark:opacity-25 pointer-events-none"
+          style={{ maskImage, WebkitMaskImage: maskImage }}
+        >
+          <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} gridSize={gridSize} isHighlighted={true} />
+        </motion.div>
+      )}
 
       {/* Optional demo content */}
       {showDemoContent && (
