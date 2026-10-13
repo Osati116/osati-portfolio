@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 import { PORTFOLIO_CATEGORIES } from "@/lib/portfolio-data";
 
 const BRAND_IDENTITY_IMAGES = [
-  "/works/brand-identity-1.png",
-  "/works/brand-identity-2.png",
-  "/works/brand-identity-3.png",
+  { src: "/works/techhack.png", title: "TechHack" },
+  { src: "/works/fun-french-academy.png", title: "Fun French Academy" },
+  { src: "/works/ziv-cleaning.png", title: "ZIV Cleaning Co." },
+  { src: "/works/design-kitchen.png", title: "Design Kitchen Studio" },
 ];
 
 function BrandIdentityAnimatedCard() {
@@ -31,9 +32,9 @@ function BrandIdentityAnimatedCard() {
         setCurrentIndex((prev) => (prev + 1) % BRAND_IDENTITY_IMAGES.length);
       }}
     >
-      {BRAND_IDENTITY_IMAGES.map((src, idx) => (
+      {BRAND_IDENTITY_IMAGES.map((item, idx) => (
         <motion.div
-          key={src}
+          key={item.src}
           initial={false}
           animate={{
             opacity: idx === currentIndex ? 1 : 0,
@@ -43,8 +44,8 @@ function BrandIdentityAnimatedCard() {
           className="absolute inset-0 w-full h-full pointer-events-none"
         >
           <Image
-            src={src}
-            alt="Brand Identity Project"
+            src={item.src}
+            alt={item.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -53,8 +54,13 @@ function BrandIdentityAnimatedCard() {
         </motion.div>
       ))}
 
+      {/* Brand Name Tag */}
+      <div className="absolute bottom-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-mono text-white/95 tracking-wide pointer-events-none transition-all duration-300">
+        {BRAND_IDENTITY_IMAGES[currentIndex].title}
+      </div>
+
       {/* Pill Progress Indicator */}
-      <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 bg-black/45 backdrop-blur-md px-2 py-1 rounded-full pointer-events-none">
+      <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full pointer-events-none">
         {BRAND_IDENTITY_IMAGES.map((_, idx) => (
           <span
             key={idx}
