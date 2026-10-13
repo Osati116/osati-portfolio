@@ -20,7 +20,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
   {
     slug: "brand-identity",
     name: "Brand Identity",
-    tag: ".../2025",
+    tag: ".../2026",
     coverImage: "/works/techhack.png",
     subtitle: "Visual systems & Monomarks",
     description: "Complete visual identity design, comprehensive design tokens, embossed stationery, and spatial monomarks engineered for enduring recognition.",
@@ -28,7 +28,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
       {
         id: "bi-techhack",
         title: "TechHack",
-        year: "2025",
+        year: "2026",
         imageUrl: "/works/techhack.png",
         description: "Minimalist technology logomark featuring a bold dual-tone laptop silhouette designed for software developers and modern digital platforms.",
       },
@@ -42,14 +42,14 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
       {
         id: "bi-ziv-cleaning",
         title: "ZIV Cleaning Co.",
-        year: "2024",
+        year: "2026",
         imageUrl: "/works/ziv-cleaning.png",
         description: "Pristine architectural sanctuary mark uniting a residential shelter outline with a bright rising sunburst for premium environmental care.",
       },
       {
         id: "bi-design-kitchen",
         title: "Design Kitchen Studio",
-        year: "2024",
+        year: "2026",
         imageUrl: "/works/design-kitchen.png",
         description: "Fluid geometric 'DK' monogram boasting chromatic gradient contours for an avant-garde creative and architectural practice.",
       },
