@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSectionScrollTransition } from "@/lib/scroll-transition";
-import { cn } from "@/lib/utils";
 import { PORTFOLIO_CATEGORIES } from "@/lib/portfolio-data";
 
 const BRAND_IDENTITY_IMAGES = [
@@ -57,19 +56,6 @@ function BrandIdentityAnimatedCard() {
       {/* Brand Name Tag */}
       <div className="absolute bottom-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-mono text-white/95 tracking-wide pointer-events-none transition-all duration-300">
         {BRAND_IDENTITY_IMAGES[currentIndex].title}
-      </div>
-
-      {/* Pill Progress Indicator */}
-      <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full pointer-events-none">
-        {BRAND_IDENTITY_IMAGES.map((_, idx) => (
-          <span
-            key={idx}
-            className={cn(
-              "h-1 rounded-full transition-all duration-300",
-              idx === currentIndex ? "w-3 bg-white" : "w-1 bg-white/40"
-            )}
-          />
-        ))}
       </div>
     </div>
   );
