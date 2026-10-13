@@ -52,11 +52,6 @@ function BrandIdentityAnimatedCard() {
           />
         </motion.div>
       ))}
-
-      {/* Brand Name Tag */}
-      <div className="absolute bottom-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-mono text-white/95 tracking-wide pointer-events-none transition-all duration-300">
-        {BRAND_IDENTITY_IMAGES[currentIndex].title}
-      </div>
     </div>
   );
 }
