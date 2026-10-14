@@ -13,7 +13,7 @@ interface CategoryViewProps {
   allCategories: PortfolioCategory[];
 }
 
-function ProjectCard({ project }: { project: ProjectItem }) {
+function ProjectCard({ project, isSquare = false }: { project: ProjectItem; isSquare?: boolean }) {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -31,12 +31,15 @@ function ProjectCard({ project }: { project: ProjectItem }) {
       className="group flex flex-col origin-center"
     >
       {/* Project Image Card with proportional aspect ratio and sharp 90° corners */}
-      <div className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center">
+      <div className={cn(
+        "relative w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center",
+        isSquare ? "aspect-square" : "aspect-[16/11]"
+      )}>
         <Image
           src={project.imageUrl}
           alt={project.title}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider">
@@ -121,10 +124,19 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
         </p>
       </motion.div>
 
-      {/* Projects Grid with Proportional 4-Column Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+      {/* Projects Grid with Proportional Responsive Layout */}
+      <div className={cn(
+        "grid gap-5 sm:gap-6",
+        category.slug === "illustration"
+          ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+          : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      )}>
         {category.projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard 
+            key={project.id} 
+            project={project} 
+            isSquare={category.slug === "illustration"} 
+          />
         ))}
       </div>
 

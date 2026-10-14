@@ -14,6 +14,14 @@ const BRAND_IDENTITY_IMAGES = [
   { src: "/works/design-kitchen.png", title: "Design Kitchen Studio" },
 ];
 
+const ILLUSTRATION_IMAGES = [
+  { src: "/works/illustrations/urban-designer.png", title: "Urban Designer Ape" },
+  { src: "/works/illustrations/saiyan-awakening.png", title: "Saiyan Surge" },
+  { src: "/works/illustrations/drip-portrait-female.png", title: "Joyful Drip Portrait" },
+  { src: "/works/illustrations/drip-portrait-male.png", title: "Shaded Drip Portrait" },
+  { src: "/works/illustrations/expressive-portrait.png", title: "Ecstatic Expression" },
+];
+
 function BrandIdentityAnimatedCard() {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -32,6 +40,48 @@ function BrandIdentityAnimatedCard() {
       }}
     >
       {BRAND_IDENTITY_IMAGES.map((item, idx) => (
+        <motion.div
+          key={item.src}
+          initial={false}
+          animate={{
+            opacity: idx === currentIndex ? 1 : 0,
+            scale: idx === currentIndex ? 1 : 1.04,
+          }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        >
+          <Image
+            src={item.src}
+            alt={item.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            priority={idx === 0}
+          />
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+function IllustrationAnimatedCard() {
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % ILLUSTRATION_IMAGES.length);
+    }, 3100);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div 
+      className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"
+      onMouseEnter={() => {
+        setCurrentIndex((prev) => (prev + 1) % ILLUSTRATION_IMAGES.length);
+      }}
+    >
+      {ILLUSTRATION_IMAGES.map((item, idx) => (
         <motion.div
           key={item.src}
           initial={false}
@@ -81,6 +131,8 @@ export function WorksSection() {
               {/* Image Card Container */}
               {category.slug === "brand-identity" ? (
                 <BrandIdentityAnimatedCard />
+              ) : category.slug === "illustration" ? (
+                <IllustrationAnimatedCard />
               ) : (
                 <div 
                   className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"
