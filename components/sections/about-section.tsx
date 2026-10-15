@@ -18,7 +18,7 @@ const LEAD_PORTRAIT: AboutPhoto = {
   id: "lead-portrait",
   title: "Osahumhen Timothy Iyamah",
   caption: "Creative Director & Brand Strategist.",
-  year: "2025",
+  year: "2024",
   url: "/portrait.jpg",
 };
 
