@@ -15,12 +15,11 @@ const BRAND_IDENTITY_IMAGES = [
 ];
 
 const ILLUSTRATION_IMAGES = [
-  { src: "/works/illustrations/urban-designer.png", title: "Urban Designer Ape" },
-  { src: "/works/illustrations/saiyan-awakening.png", title: "Saiyan Surge" },
-  { src: "/works/illustrations/drip-portrait-female.jpg", title: "Joyful Drip Portrait" },
-  { src: "/works/illustrations/drip-portrait-male.jpg", title: "Shaded Drip Portrait" },
-  { src: "/works/illustrations/expressive-portrait.png", title: "Ecstatic Expression" },
-  { src: "/works/illustrations/bandana-portrait.jpg", title: "Paisley Masked Portrait" },
+  { src: "/works/illustrations/urban-designer.png", title: "Urban Designer Ape", bg: "#000000" },
+  { src: "/works/illustrations/drip-portrait-female.jpg", title: "Joyful Drip Portrait", bg: "#ffffff" },
+  { src: "/works/illustrations/drip-portrait-male.jpg", title: "Shaded Drip Portrait", bg: "#ffffff" },
+  { src: "/works/illustrations/expressive-portrait.png", title: "Ecstatic Expression", bg: "#57a1ab" },
+  { src: "/works/illustrations/bandana-portrait.jpg", title: "Paisley Masked Portrait", bg: "#2b3690" },
 ];
 
 function BrandIdentityAnimatedCard() {
@@ -91,16 +90,19 @@ function IllustrationAnimatedCard() {
             scale: idx === currentIndex ? 1 : 1.04,
           }}
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center"
+          style={{ backgroundColor: item.bg }}
         >
-          <Image
-            src={item.src}
-            alt={item.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
-            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-            priority={idx === 0}
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={item.src}
+              alt={item.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+              className="object-contain transition-transform duration-700 group-hover:scale-105"
+              priority={idx === 0}
+            />
+          </div>
         </motion.div>
       ))}
     </div>

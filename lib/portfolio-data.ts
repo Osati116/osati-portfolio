@@ -4,6 +4,8 @@ export interface ProjectItem {
   year: string;
   imageUrl: string;
   description?: string;
+  aspectRatio?: string;
+  bgColor?: string;
 }
 
 export interface PortfolioCategory {
@@ -69,13 +71,8 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2026",
         imageUrl: "/works/illustrations/urban-designer.png",
         description: "Stylized streetwear ape character in red hoodie against high-contrast monochrome and golden skyline architecture.",
-      },
-      {
-        id: "il-saiyan-awakening",
-        title: "Saiyan Surge",
-        year: "2026",
-        imageUrl: "/works/illustrations/saiyan-awakening.png",
-        description: "Electrifying anime vector study capturing Super Saiyan power surge with dynamic neon green Ki lightning aura.",
+        aspectRatio: "1/1",
+        bgColor: "#000000",
       },
       {
         id: "il-drip-portrait-female",
@@ -83,6 +80,8 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2025",
         imageUrl: "/works/illustrations/drip-portrait-female.jpg",
         description: "Expressive minimalist vector portrait featuring warm skin tones, chic eyewear, and signature melting neck contour.",
+        aspectRatio: "748/1024",
+        bgColor: "#ffffff",
       },
       {
         id: "il-drip-portrait-male",
@@ -90,6 +89,8 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2025",
         imageUrl: "/works/illustrations/drip-portrait-male.jpg",
         description: "Cool contemporary character illustration pairing metallic sunglasses and earbud with fluid dripping neckline geometry.",
+        aspectRatio: "698/1024",
+        bgColor: "#ffffff",
       },
       {
         id: "il-expressive-portrait",
@@ -97,6 +98,8 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2025",
         imageUrl: "/works/illustrations/expressive-portrait.png",
         description: "High-energy vector caricature exploring exaggerated facial anatomy, ecstatic laughter, and rich chromatic teal contrast.",
+        aspectRatio: "1/1",
+        bgColor: "#57a1ab",
       },
       {
         id: "il-bandana-portrait",
@@ -104,6 +107,8 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2026",
         imageUrl: "/works/illustrations/bandana-portrait.jpg",
         description: "Striking vector character portrait featuring an intense gaze and ornate black paisley bandana over royal cobalt blue canvas.",
+        aspectRatio: "718/1024",
+        bgColor: "#2b3690",
       },
     ],
   },

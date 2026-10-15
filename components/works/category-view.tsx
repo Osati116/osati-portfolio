@@ -13,7 +13,7 @@ interface CategoryViewProps {
   allCategories: PortfolioCategory[];
 }
 
-function ProjectCard({ project, isSquare = false }: { project: ProjectItem; isSquare?: boolean }) {
+function ProjectCard({ project }: { project: ProjectItem }) {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -24,6 +24,8 @@ function ProjectCard({ project, isSquare = false }: { project: ProjectItem; isSq
   const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.85], [0.45, 1]);
 
+  const aspectRatio = project.aspectRatio || "16/11";
+
   return (
     <motion.div 
       ref={cardRef} 
@@ -31,16 +33,22 @@ function ProjectCard({ project, isSquare = false }: { project: ProjectItem; isSq
       className="group flex flex-col origin-center"
     >
       {/* Project Image Card with proportional aspect ratio and sharp 90° corners */}
-      <div className={cn(
-        "relative w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center",
-        isSquare ? "aspect-square" : "aspect-[16/11]"
-      )}>
+      <div 
+        className="relative w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center"
+        style={{ 
+          aspectRatio,
+          backgroundColor: project.bgColor || undefined
+        }}
+      >
         <Image
           src={project.imageUrl}
           alt={project.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          className={cn(
+            "transition-transform duration-700 group-hover:scale-105",
+            project.aspectRatio ? "object-contain" : "object-cover"
+          )}
         />
         <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider">
           {project.year}
@@ -126,7 +134,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
 
       {/* Projects Grid with Proportional Responsive Layout */}
       <div className={cn(
-        "grid gap-5 sm:gap-6",
+        "grid gap-5 sm:gap-6 items-start",
         category.slug === "illustration"
           ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -135,7 +143,6 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
           <ProjectCard 
             key={project.id} 
             project={project} 
-            isSquare={category.slug === "illustration"} 
           />
         ))}
       </div>
