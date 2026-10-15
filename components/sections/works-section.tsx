@@ -16,10 +16,10 @@ const BRAND_IDENTITY_IMAGES = [
 
 const ILLUSTRATION_IMAGES = [
   { src: "/works/illustrations/urban-designer.png", title: "Urban Designer Ape", bg: "#000000" },
-  { src: "/works/illustrations/drip-portrait-female.jpg", title: "Joyful Drip Portrait", bg: "#ffffff" },
-  { src: "/works/illustrations/drip-portrait-male.jpg", title: "Shaded Drip Portrait", bg: "#ffffff" },
-  { src: "/works/illustrations/expressive-portrait.png", title: "Ecstatic Expression", bg: "#57a1ab" },
-  { src: "/works/illustrations/bandana-portrait.jpg", title: "Paisley Masked Portrait", bg: "#2b3690" },
+  { src: "/works/illustrations/drip-portrait-female-v2.jpg", title: "Joyful Drip Portrait", bg: "#ffffff" },
+  { src: "/works/illustrations/drip-portrait-male-v2.jpg", title: "Shaded Drip Portrait", bg: "#ffffff" },
+  { src: "/works/illustrations/expressive-portrait-v2.png", title: "Ecstatic Expression", bg: "#57a1ab" },
+  { src: "/works/illustrations/bandana-portrait-v2.jpg", title: "Paisley Masked Portrait", bg: "#2b3690" },
 ];
 
 function BrandIdentityAnimatedCard() {
