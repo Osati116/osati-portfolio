@@ -17,9 +17,10 @@ const BRAND_IDENTITY_IMAGES = [
 const ILLUSTRATION_IMAGES = [
   { src: "/works/illustrations/urban-designer.png", title: "Urban Designer Ape" },
   { src: "/works/illustrations/saiyan-awakening.png", title: "Saiyan Surge" },
-  { src: "/works/illustrations/drip-portrait-female.png", title: "Joyful Drip Portrait" },
-  { src: "/works/illustrations/drip-portrait-male.png", title: "Shaded Drip Portrait" },
+  { src: "/works/illustrations/drip-portrait-female.jpg", title: "Joyful Drip Portrait" },
+  { src: "/works/illustrations/drip-portrait-male.jpg", title: "Shaded Drip Portrait" },
   { src: "/works/illustrations/expressive-portrait.png", title: "Ecstatic Expression" },
+  { src: "/works/illustrations/bandana-portrait.jpg", title: "Paisley Masked Portrait" },
 ];
 
 function BrandIdentityAnimatedCard() {
@@ -97,7 +98,7 @@ function IllustrationAnimatedCard() {
             alt={item.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
             priority={idx === 0}
           />
         </motion.div>

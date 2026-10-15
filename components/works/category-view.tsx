@@ -39,8 +39,8 @@ function ProjectCard({ project, isSquare = false }: { project: ProjectItem; isSq
           src={project.imageUrl}
           alt={project.title}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider">
           {project.year}
@@ -128,7 +128,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       <div className={cn(
         "grid gap-5 sm:gap-6",
         category.slug === "illustration"
-          ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+          ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       )}>
         {category.projects.map((project) => (
