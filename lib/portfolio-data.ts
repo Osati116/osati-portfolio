@@ -80,7 +80,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2025",
         imageUrl: "/works/illustrations/drip-portrait-female.jpg",
         description: "Expressive minimalist vector portrait featuring warm skin tones, chic eyewear, and signature melting neck contour.",
-        aspectRatio: "748/1024",
+        aspectRatio: "1/1",
         bgColor: "#ffffff",
       },
       {
@@ -89,7 +89,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2025",
         imageUrl: "/works/illustrations/drip-portrait-male.jpg",
         description: "Cool contemporary character illustration pairing metallic sunglasses and earbud with fluid dripping neckline geometry.",
-        aspectRatio: "698/1024",
+        aspectRatio: "1/1",
         bgColor: "#ffffff",
       },
       {
@@ -107,7 +107,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2026",
         imageUrl: "/works/illustrations/bandana-portrait.jpg",
         description: "Striking vector character portrait featuring an intense gaze and ornate black paisley bandana over royal cobalt blue canvas.",
-        aspectRatio: "718/1024",
+        aspectRatio: "1/1",
         bgColor: "#2b3690",
       },
     ],
