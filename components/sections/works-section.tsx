@@ -19,7 +19,7 @@ const ILLUSTRATION_IMAGES = [
   { src: "/works/illustrations/drip-portrait-female-v2.jpg", title: "Joyful Drip Portrait", bg: "#ffffff" },
   { src: "/works/illustrations/drip-portrait-male-v2.jpg", title: "Shaded Drip Portrait", bg: "#ffffff" },
   { src: "/works/illustrations/expressive-portrait-v2.png", title: "Ecstatic Expression", bg: "#57a1ab" },
-  { src: "/works/illustrations/bandana-portrait-v2.jpg", title: "Paisley Masked Portrait", bg: "#2b3690" },
+  { src: "/works/illustrations/bandana-portrait-v3.jpg", title: "Paisley Masked Portrait", bg: "#2b3690" },
 ];
 
 function BrandIdentityAnimatedCard() {

@@ -105,7 +105,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         id: "il-bandana-portrait",
         title: "Paisley Masked Portrait",
         year: "2026",
-        imageUrl: "/works/illustrations/bandana-portrait-v2.jpg",
+        imageUrl: "/works/illustrations/bandana-portrait-v3.jpg",
         description: "Striking vector character portrait featuring an intense gaze and ornate black paisley bandana over royal cobalt blue canvas.",
         aspectRatio: "1/1",
         bgColor: "#2b3690",
