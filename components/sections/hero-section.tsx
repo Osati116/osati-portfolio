@@ -18,30 +18,21 @@ function getRandomGlyph(): string {
   return ALIEN_GLYPHS[Math.floor(Math.random() * ALIEN_GLYPHS.length)];
 }
 
-function generateAlienString(target: string, len: number): string {
-  let s = "";
-  for (let i = 0; i < len; i++) {
-    s += target[i] === " " ? " " : getRandomGlyph();
-  }
-  return s;
-}
-
-type AlienPhase =
-  | "ALIEN_STREAM"
-  | "ALIEN_HOLD"
-  | "DECODING"
-  | "RESOLVED"
-  | "GLITCHING"
-  | "COLLAPSING"
-  | "PAUSE";
+type TypingPhase =
+  | "TYPING"      // Typing out character by character with alien unscrambling
+  | "RESOLVED"    // Fully typed name resting legibly for 3.2s
+  | "GLITCHING"   // Multi-frame cybernetic alien glitch
+  | "COLLAPSING"  // Rapid collapse / erase
+  | "PAUSE";      // Quiet pause before typing out again
 
 function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
-  const [phase, setPhase] = React.useState<AlienPhase>("ALIEN_STREAM");
-  const [streamIndex, setStreamIndex] = React.useState(0);
-  const [decodeIndex, setDecodeIndex] = React.useState(0);
+  const [phase, setPhase] = React.useState<TypingPhase>("TYPING");
+  const [charIndex, setCharIndex] = React.useState(0);
+  const [scrambleTick, setScrambleTick] = React.useState(0);
+  const [lockedText, setLockedText] = React.useState("");
+  const [displayText, setDisplayText] = React.useState("");
   const [glitchFrame, setGlitchFrame] = React.useState(0);
   const [collapseIndex, setCollapseIndex] = React.useState(0);
-  const [displayText, setDisplayText] = React.useState("");
   const [isGlitching, setIsGlitching] = React.useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
@@ -60,48 +51,36 @@ function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
 
     let timeoutId: NodeJS.Timeout;
 
-    if (phase === "ALIEN_STREAM") {
+    if (phase === "TYPING") {
       setIsGlitching(false);
-      if (streamIndex < name.length) {
-        timeoutId = setTimeout(() => {
-          const nextIndex = streamIndex + 1;
-          setStreamIndex(nextIndex);
-          setDisplayText(generateAlienString(name, nextIndex));
-        }, name[streamIndex] === " " ? 10 : 22);
-      } else {
-        timeoutId = setTimeout(() => {
-          setPhase("ALIEN_HOLD");
-        }, 120);
-      }
-    } else if (phase === "ALIEN_HOLD") {
-      let ticks = 0;
-      const intervalId = setInterval(() => {
-        ticks++;
-        setDisplayText(generateAlienString(name, name.length));
-        if (ticks >= 5) {
-          clearInterval(intervalId);
-          setDecodeIndex(0);
-          setPhase("DECODING");
+      if (charIndex < name.length) {
+        if (name[charIndex] === " ") {
+          // Instant space to preserve clean word boundaries
+          timeoutId = setTimeout(() => {
+            const nextLocked = lockedText + " ";
+            setLockedText(nextLocked);
+            setDisplayText(nextLocked);
+            setCharIndex((prev) => prev + 1);
+            setScrambleTick(0);
+          }, 15);
+        } else if (scrambleTick < 2) {
+          // Alien glyph scramble tick for active character
+          timeoutId = setTimeout(() => {
+            setDisplayText(lockedText + getRandomGlyph());
+            setScrambleTick((prev) => prev + 1);
+          }, 32);
+        } else {
+          // Unscramble and lock the authentic character
+          timeoutId = setTimeout(() => {
+            const nextLocked = lockedText + name[charIndex];
+            setLockedText(nextLocked);
+            setDisplayText(nextLocked);
+            setCharIndex((prev) => prev + 1);
+            setScrambleTick(0);
+          }, 36);
         }
-      }, 65);
-      return () => clearInterval(intervalId);
-    } else if (phase === "DECODING") {
-      if (decodeIndex <= name.length) {
-        timeoutId = setTimeout(() => {
-          let text = "";
-          for (let i = 0; i < name.length; i++) {
-            if (name[i] === " ") {
-              text += " ";
-            } else if (i < decodeIndex) {
-              text += name[i];
-            } else {
-              text += getRandomGlyph();
-            }
-          }
-          setDisplayText(text);
-          setDecodeIndex((prev) => prev + 1);
-        }, name[decodeIndex] === " " ? 12 : 32);
       } else {
+        // Full name completed typing out!
         setDisplayText(name);
         setPhase("RESOLVED");
       }
@@ -147,18 +126,21 @@ function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
         }, 35);
       } else {
         setDisplayText("");
+        setLockedText("");
         setIsGlitching(false);
         setPhase("PAUSE");
       }
     } else if (phase === "PAUSE") {
       timeoutId = setTimeout(() => {
-        setStreamIndex(0);
-        setPhase("ALIEN_STREAM");
+        setCharIndex(0);
+        setScrambleTick(0);
+        setLockedText("");
+        setPhase("TYPING");
       }, 350);
     }
 
     return () => clearTimeout(timeoutId);
-  }, [phase, streamIndex, decodeIndex, glitchFrame, collapseIndex, name, prefersReducedMotion]);
+  }, [phase, charIndex, scrambleTick, lockedText, glitchFrame, collapseIndex, name, prefersReducedMotion]);
 
   const handleTriggerGlitch = () => {
     if (phase === "RESOLVED") {
@@ -173,11 +155,11 @@ function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
 
   return (
     <span
-      className={`inline select-text cursor-pointer transition-all duration-150 ${isGlitching ? "glitch-active" : ""}`}
+      className={`inline select-text whitespace-nowrap cursor-pointer transition-all duration-150 ${isGlitching ? "glitch-active" : ""}`}
       aria-label={name}
       onClick={handleTriggerGlitch}
       onMouseEnter={handleTriggerGlitch}
-      title="Click or hover to trigger alien language cipher"
+      title="Click or hover to trigger alien unscramble"
     >
       <span aria-hidden="true">{leadingText}</span>
       <span className="whitespace-nowrap" aria-hidden="true">
@@ -260,8 +242,8 @@ export function HeroSection() {
               <span className="block transition-opacity duration-200 hover:opacity-60">
                 Hi, I&apos;m
               </span>
-              {/* Endless typing name displaying on both desktop and mobile views */}
-              <span className="block min-h-[1.2em]">
+              {/* Single-line locked container: strictly one line, never spills over, with fluid scaling */}
+              <span className="block whitespace-nowrap text-[clamp(1.15rem,5.1vw,3.85rem)] min-h-[1.2em] leading-none my-0.5 sm:my-1 overflow-visible">
                 <TypingName name="Osahumhen Timothy Iyamah" />
               </span>
               <span className="block">
