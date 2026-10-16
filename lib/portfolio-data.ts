@@ -117,7 +117,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     projects: [
       {
         id: "wd-design-kitchen",
-        title: "Design Agency website project",
+        title: "Design Kitchen Studio",
         year: "2026",
         imageUrl: "/works/web-design/design-kitchen-web-v2.jpg",
         fullScreenshotUrl: "/works/web-design/design-kitchen-full-hd.jpg",
