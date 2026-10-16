@@ -2,12 +2,14 @@
 
 import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 /**
  * Custom cursor follower:
  * A smooth circular follower that tracks the mouse cursor.
  * - Solid white in dark mode
  * - Changes to solid black in light mode
+ * - Turns vibrant red immediately on any X (Close) button/icon
  * - Smooth spring physics trailing
  * - Subtle scale expansion on interactive elements (links, buttons)
  * - Safe for mobile/touch devices (hidden)
@@ -17,6 +19,7 @@ export function CursorFollower() {
   const [isVisible, setIsVisible] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
   const [isClicked, setIsClicked] = React.useState(false);
+  const [isCloseTarget, setIsCloseTarget] = React.useState(false);
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -33,14 +36,53 @@ export function CursorFollower() {
 
     setMounted(true);
 
+    const checkIsCloseElement = (target: Element | null): boolean => {
+      if (!target) return false;
+
+      // 1. Explicit data attribute
+      if (target.closest('[data-cursor-close="true"]')) return true;
+
+      // 2. Aria labels with 'close'
+      const ariaLabel = target.closest('[aria-label]')?.getAttribute('aria-label') || '';
+      if (/close/i.test(ariaLabel)) return true;
+
+      // 3. Title with 'close'
+      const title = target.closest('[title]')?.getAttribute('title') || '';
+      if (/close/i.test(title)) return true;
+
+      // 4. Lucide X SVG element or child of it
+      if (target.closest('svg.lucide-x') || target.classList.contains('lucide-x')) return true;
+
+      // 5. Button or interactive container containing Close text or Lucide X icon
+      const buttonOrAction = target.closest('button, a, [role="button"]');
+      if (buttonOrAction) {
+        const text = buttonOrAction.textContent?.trim().toLowerCase() || '';
+        if (text === 'close' || text.startsWith('close ') || text.endsWith(' close') || text.includes('close')) return true;
+        if (buttonOrAction.querySelector('svg.lucide-x')) return true;
+      }
+
+      return false;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
       if (!isVisible) setIsVisible(true);
+
+      const target = e.target as Element | null;
+      if (target) {
+        const interactive = target.closest(
+          'a, button, input, textarea, select, [role="button"], .cursor-pointer'
+        );
+        setIsHovered(!!interactive);
+        setIsCloseTarget(checkIsCloseElement(target));
+      }
     };
 
     const handleMouseLeave = () => {
       setIsVisible(false);
+      setIsCloseTarget(false);
+      setIsHovered(false);
     };
 
     const handleMouseEnter = () => {
@@ -55,15 +97,29 @@ export function CursorFollower() {
       setIsClicked(false);
     };
 
-    // Check if target is an interactive element to expand cursor follower
     const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
+      const target = e.target as Element | null;
       if (!target) return;
 
       const interactive = target.closest(
         'a, button, input, textarea, select, [role="button"], .cursor-pointer'
       );
       setIsHovered(!!interactive);
+      setIsCloseTarget(checkIsCloseElement(target));
+    };
+
+    const handleMouseOut = (e: MouseEvent) => {
+      const related = e.relatedTarget as Element | null;
+      if (!related) {
+        setIsCloseTarget(false);
+        setIsHovered(false);
+      } else {
+        setIsCloseTarget(checkIsCloseElement(related));
+        const interactive = related.closest(
+          'a, button, input, textarea, select, [role="button"], .cursor-pointer'
+        );
+        setIsHovered(!!interactive);
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -72,6 +128,7 @@ export function CursorFollower() {
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -80,6 +137,7 @@ export function CursorFollower() {
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
     };
   }, [mouseX, mouseY, isVisible]);
 
@@ -95,14 +153,19 @@ export function CursorFollower() {
         translateY: "-50%",
       }}
       animate={{
-        scale: isClicked ? 0.8 : isHovered ? 1.5 : 1,
-        opacity: isVisible ? (isHovered ? 1 : 0.85) : 0,
+        scale: isClicked ? 0.8 : isCloseTarget ? 1.45 : isHovered ? 1.5 : 1,
+        opacity: isVisible ? (isHovered || isCloseTarget ? 1 : 0.85) : 0,
       }}
       transition={{
         scale: { type: "spring", damping: 22, stiffness: 380 },
         opacity: { duration: 0.15 },
       }}
-      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block w-7 h-7 rounded-full bg-transparent border-2 border-black dark:border-white transition-colors duration-300"
+      className={cn(
+        "pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block rounded-full transition-colors duration-75",
+        isCloseTarget
+          ? "w-8 h-8 border-2 border-red-500 bg-red-500/20 shadow-[0_0_16px_rgba(239,68,68,0.6)]"
+          : "w-7 h-7 bg-transparent border-2 border-black dark:border-white"
+      )}
     />
   );
 }

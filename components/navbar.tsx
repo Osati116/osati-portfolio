@@ -106,11 +106,19 @@ export function Navbar() {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-full border-0 bg-transparent text-black dark:text-white hover:opacity-70 transition-all cursor-pointer focus:outline-none"
-              aria-label="Toggle Navigation Menu"
+              className={cn(
+                "md:hidden p-2 rounded-full border-0 bg-transparent text-black dark:text-white transition-colors duration-75 cursor-pointer focus:outline-none group",
+                mobileMenuOpen ? "hover:text-red-600 dark:hover:text-red-400" : "hover:opacity-70"
+              )}
+              aria-label={mobileMenuOpen ? "Close Navigation Menu" : "Toggle Navigation Menu"}
               aria-expanded={mobileMenuOpen}
+              data-cursor-close={mobileMenuOpen ? "true" : undefined}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 text-black dark:text-white" /> : <Menu className="w-5 h-5 text-black dark:text-white" />}
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5 text-current transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400" />
+              ) : (
+                <Menu className="w-5 h-5 text-current" />
+              )}
             </button>
           </div>
         </nav>

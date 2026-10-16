@@ -213,10 +213,11 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                     {/* Mobile Close Button */}
                     <button
                       onClick={() => setSelectedProject(null)}
-                      className="lg:hidden text-neutral-500 hover:text-black dark:hover:text-white text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors p-1"
+                      className="lg:hidden text-neutral-500 hover:text-red-600 dark:hover:text-red-400 text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors duration-75 p-1 group"
                       aria-label="Close project view"
+                      data-cursor-close="true"
                     >
-                      <X className="w-5 h-5" />
+                      <X className="w-5 h-5 transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400" />
                     </button>
                     <div className="hidden lg:block w-4"></div>
                   </div>
@@ -265,11 +266,12 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                       </span>
                       <button
                         onClick={() => setSelectedProject(null)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors cursor-pointer text-xs font-mono border-0"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors duration-75 cursor-pointer text-xs font-mono border-0 group"
                         aria-label="Close project view"
+                        data-cursor-close="true"
                       >
-                        <span>Close</span>
-                        <X className="w-4 h-4" />
+                        <span className="transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400">Close</span>
+                        <X className="w-4 h-4 transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400" />
                       </button>
                     </div>
 
@@ -387,10 +389,11 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                   </div>
                   <button
                     onClick={() => setSelectedProject(null)}
-                    className="p-2 text-neutral-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer shrink-0"
+                    className="p-2 text-neutral-500 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-75 cursor-pointer shrink-0 group"
                     aria-label="Close modal"
+                    data-cursor-close="true"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-5 h-5 transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400" />
                   </button>
                 </div>
               </div>

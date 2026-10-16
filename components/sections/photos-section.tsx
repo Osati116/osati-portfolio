@@ -166,10 +166,11 @@ export function PhotosSection() {
           >
             <button
               onClick={() => setSelectedPhoto(null)}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/60 text-white hover:bg-black/90 backdrop-blur-md transition-colors cursor-pointer"
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/60 text-white hover:text-red-500 hover:bg-black/90 backdrop-blur-md transition-colors duration-75 cursor-pointer group"
               aria-label="Close photo preview"
+              data-cursor-close="true"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 transition-colors duration-75 group-hover:text-red-500" />
             </button>
             <div className="relative w-full h-[65vh] sm:h-[75vh]">
               <Image
