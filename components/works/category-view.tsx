@@ -48,7 +48,7 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className={cn(
             "transition-transform duration-700 group-hover:scale-105",
-            project.aspectRatio ? "object-contain" : "object-cover"
+            project.bgColor ? "object-contain" : "object-cover object-top"
           )}
         />
         <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider">
