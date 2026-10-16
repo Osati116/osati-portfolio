@@ -124,7 +124,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         liveUrl: "https://www.designkitchen.site",
         description: "Full-page digital experience and design system landing page for Design Kitchen Studio.",
         about: "A bespoke full-page digital experience engineered for Design Kitchen Studio—an avant-garde multidisciplinary creative practice. Designed with high-contrast architectural grids, fluid editorial typography, responsive layouts, and interactive visual hierarchy.",
-        stack: ["Figma", "React", "Next.js", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
+        stack: ["Photoshop", "React", "Next.js", "Tailwind CSS", "TypeScript", "Framer Motion", "Vercel"],
         aspectRatio: "16/11",
       },
     ],

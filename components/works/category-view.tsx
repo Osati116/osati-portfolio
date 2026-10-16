@@ -291,7 +291,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                     {/* Where only icons will be displayed */}
                     <div className="flex flex-wrap items-center gap-2.5 pt-1">
                       {(selectedProject.stack || [
-                        "Figma",
+                        "Photoshop",
                         "React",
                         "Next.js",
                         "Tailwind CSS",
