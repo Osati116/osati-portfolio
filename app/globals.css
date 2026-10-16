@@ -182,3 +182,28 @@ body {
 .animate-cursor {
   animation: typing-cursor 0.85s step-start infinite;
 }
+
+/* TeX Gyre Adventor (Avant Garde geometric typeface) */
+@font-face {
+  font-family: 'TeXGyreAdventor';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/texgyreadventor-regular.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/425/texgyreadventor-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'TeXGyreAdventor';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/texgyreadventor-bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/425/texgyreadventor-bold.woff') format('woff');
+}
+
+.font-adventor,
+.font-tex-gyre-adventor {
+  font-family: 'TeXGyreAdventor', 'Century Gothic', 'Avant Garde', sans-serif !important;
+  letter-spacing: -0.015em;
+}

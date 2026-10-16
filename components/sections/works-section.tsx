@@ -151,9 +151,9 @@ function WebDesignAnimatedCard() {
 
   return (
     <div className="relative aspect-[16/11] w-full overflow-hidden bg-white text-black p-4 flex items-center justify-center transition-all duration-300 group-hover:shadow-md origin-center select-none">
-      <div className="flex items-center justify-center font-anton text-2xl sm:text-3xl md:text-2xl lg:text-[1.85rem] xl:text-[2.2rem] font-normal uppercase tracking-tight text-black leading-none whitespace-nowrap min-h-[1.2em]">
+      <div className="flex items-center justify-center font-adventor font-bold text-xl sm:text-2xl md:text-xl lg:text-[1.35rem] xl:text-[1.65rem] uppercase tracking-tight text-black leading-none whitespace-nowrap min-h-[1.2em]">
         <span>{displayText}</span>
-        <span className="inline-block w-[3px] h-[0.9em] bg-black ml-1.5 align-middle animate-cursor" />
+        <span className="inline-block w-[2.5px] h-[0.88em] bg-black ml-1.5 align-middle animate-cursor" />
       </div>
     </div>
   );
