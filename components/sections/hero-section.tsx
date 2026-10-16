@@ -12,9 +12,18 @@ const NAV_LINKS = [
   { label: "Shop", href: "#shop", tag: "04" },
 ];
 
+const ALIEN_GLYPHS = "⍟⏣⌬⍎⍕⍱⍲⍳⍴⍶⍷ᚠᚥᚦᛏᛒᛖᛗᛚᛜᛟᛞᚲꘐꘒꘓꘔꘖ⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⎔⎕⏥⏦⏧⏨Ø∆⌖§¥◊◈◆◇01XZ".split("");
+
+function getRandomGlyph(): string {
+  return ALIEN_GLYPHS[Math.floor(Math.random() * ALIEN_GLYPHS.length)];
+}
+
 function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
   const [displayText, setDisplayText] = React.useState("");
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [charIndex, setCharIndex] = React.useState(0);
+  const [scrambleTick, setScrambleTick] = React.useState(0);
+  const [lockedText, setLockedText] = React.useState("");
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
   React.useEffect(() => {
@@ -33,31 +42,60 @@ function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
     let timeoutId: NodeJS.Timeout;
 
     if (!isDeleting) {
-      if (displayText.length < name.length) {
-        timeoutId = setTimeout(() => {
-          setDisplayText(name.slice(0, displayText.length + 1));
-        }, 65);
+      // --- TYPING IN: Glyph letter reveal ---
+      if (charIndex < name.length) {
+        if (name[charIndex] === " ") {
+          // Instant space to preserve clean word boundaries
+          timeoutId = setTimeout(() => {
+            const nextLocked = lockedText + " ";
+            setLockedText(nextLocked);
+            setDisplayText(nextLocked);
+            setCharIndex((prev) => prev + 1);
+            setScrambleTick(0);
+          }, 15);
+        } else if (scrambleTick < 2) {
+          // Glyph mutation tick for the active character being typed in
+          timeoutId = setTimeout(() => {
+            setDisplayText(lockedText + getRandomGlyph());
+            setScrambleTick((prev) => prev + 1);
+          }, 32);
+        } else {
+          // Reveal the authentic Latin character
+          timeoutId = setTimeout(() => {
+            const nextLocked = lockedText + name[charIndex];
+            setLockedText(nextLocked);
+            setDisplayText(nextLocked);
+            setCharIndex((prev) => prev + 1);
+            setScrambleTick(0);
+          }, 36);
+        }
       } else {
-        // Full name completed typing out: hold for 2.8s so it can be comfortably read
+        // Full name completed typing in: hold for 2.8s so it can be comfortably read
         timeoutId = setTimeout(() => {
           setIsDeleting(true);
         }, 2800);
       }
     } else {
+      // --- TYPING OUT: Normal text backspace deletion ---
       if (displayText.length > 0) {
         timeoutId = setTimeout(() => {
-          setDisplayText(name.slice(0, displayText.length - 1));
-        }, 32);
+          const nextText = displayText.slice(0, displayText.length - 1);
+          setDisplayText(nextText);
+          setLockedText(nextText);
+        }, 30);
       } else {
-        // Paused at empty for 400ms before looping endlessly
+        // Paused at empty for 400ms before typing in again
         timeoutId = setTimeout(() => {
+          setCharIndex(0);
+          setScrambleTick(0);
+          setLockedText("");
           setIsDeleting(false);
         }, 400);
       }
     }
 
     return () => clearTimeout(timeoutId);
-  }, [displayText, isDeleting, name, prefersReducedMotion]);
+  }, [displayText, isDeleting, charIndex, scrambleTick, lockedText, name, prefersReducedMotion]);
 
   const lastSpaceIndex = displayText.lastIndexOf(" ");
   const leadingText = lastSpaceIndex !== -1 ? displayText.slice(0, lastSpaceIndex + 1) : "";
