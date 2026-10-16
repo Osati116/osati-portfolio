@@ -3,6 +3,7 @@ export interface ProjectItem {
   title: string;
   year: string;
   imageUrl: string;
+  fullScreenshotUrl?: string;
   description?: string;
   aspectRatio?: string;
   bgColor?: string;
@@ -113,10 +114,11 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     projects: [
       {
         id: "wd-design-kitchen",
-        title: "Design Kitchen Web Experience",
+        title: "Design Agency website project",
         year: "2024",
         imageUrl: "/works/web-design/design-kitchen-web.png",
-        description: "Modern interactive digital platform and agency portfolio for Design Kitchen Studio, featuring vibrant fluid gradient themes and responsive typography.",
+        fullScreenshotUrl: "/works/web-design/design-kitchen-full-hd.jpg",
+        description: "Full-page digital experience and design system landing page for Design Kitchen Studio. Click to expand and scroll through the entire landing page.",
         aspectRatio: "16/11",
       },
       {
