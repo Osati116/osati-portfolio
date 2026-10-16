@@ -190,10 +190,16 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                 </div>
 
                 {/* Mock Address Bar */}
-                <div className="hidden sm:flex items-center gap-1.5 px-4 py-1 rounded-full bg-neutral-200/60 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-300 text-xs font-mono">
+                <a
+                  href={selectedProject.liveUrl || "https://www.designkitchen.site"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden sm:flex items-center gap-1.5 px-4 py-1 rounded-full bg-neutral-200/60 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white text-xs font-mono transition-colors cursor-pointer"
+                  title="Open live website"
+                >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                  <span>designkitchen.studio</span>
-                </div>
+                  <span>www.designkitchen.site</span>
+                </a>
 
                 <button
                   onClick={() => setSelectedProject(null)}
@@ -215,11 +221,23 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                 />
               </div>
 
-              {/* Bottom Information Footer */}
+              {/* Bottom Information Footer under the container */}
               <div className="px-4 py-2.5 bg-neutral-50 dark:bg-neutral-950 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 font-mono shrink-0">
-                <span className="truncate pr-2 font-medium text-neutral-800 dark:text-neutral-200">
-                  {selectedProject.title}
-                </span>
+                {selectedProject.liveUrl ? (
+                  <a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1.5 font-medium text-black dark:text-white hover:opacity-70 transition-opacity"
+                  >
+                    <span>View Website</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                ) : (
+                  <span className="truncate pr-2 font-medium text-neutral-800 dark:text-neutral-200">
+                    {selectedProject.title}
+                  </span>
+                )}
                 <span className="shrink-0 text-[11px]">
                   {selectedProject.year}
                 </span>

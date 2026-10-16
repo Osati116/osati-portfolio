@@ -7,6 +7,7 @@ export interface ProjectItem {
   description?: string;
   aspectRatio?: string;
   bgColor?: string;
+  liveUrl?: string;
 }
 
 export interface PortfolioCategory {
@@ -118,6 +119,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2026",
         imageUrl: "/works/web-design/design-kitchen-web-v2.jpg",
         fullScreenshotUrl: "/works/web-design/design-kitchen-full-hd.jpg",
+        liveUrl: "https://www.designkitchen.site",
         description: "Full-page digital experience and design system landing page for Design Kitchen Studio.",
         aspectRatio: "16/11",
       },
