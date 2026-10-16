@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, X } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { PortfolioCategory, ProjectItem } from "@/lib/portfolio-data";
 import { renderStackIcon } from "@/components/icons/tech-stack-icons";
 import { cn } from "@/lib/utils";
@@ -170,18 +170,34 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
         ))}
       </div>
 
-      {/* Lightbox Modal on Project Click */}
-      {selectedProject && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
-          onClick={() => setSelectedProject(null)}
-        >
-          {selectedProject.fullScreenshotUrl ? (
-            /* Split Screen Lightbox: Website Mockup on Left + Details on Right */
-            <div
-              className="relative bg-white dark:bg-neutral-900 rounded-2xl w-full max-w-6xl xl:max-w-7xl h-[92vh] sm:h-[88vh] flex flex-col lg:flex-row shadow-2xl overflow-hidden border border-neutral-200 dark:border-neutral-800"
-              onClick={(e) => e.stopPropagation()}
-            >
+      {/* Lightbox Modal on Project Click with Smooth Kinetic Spring Motion */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            key="modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 bg-black/80 backdrop-blur-md"
+            onClick={() => setSelectedProject(null)}
+          >
+            {selectedProject.fullScreenshotUrl ? (
+              /* Split Screen Lightbox: Website Mockup on Left + Details on Right */
+              <motion.div
+                key={`modal-split-${selectedProject.id}`}
+                initial={{ opacity: 0, scale: 0.93, y: 22 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 14 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 340,
+                  damping: 30,
+                  mass: 0.8,
+                }}
+                className="relative bg-white dark:bg-neutral-900 rounded-2xl w-full max-w-6xl xl:max-w-7xl h-[92vh] sm:h-[88vh] flex flex-col lg:flex-row shadow-2xl overflow-hidden border border-neutral-200 dark:border-neutral-800 will-change-transform"
+                onClick={(e) => e.stopPropagation()}
+              >
               {/* Left Column: Mock Browser Container (Shifted to Left) */}
               <div className="w-full lg:w-[60%] xl:w-[62%] h-[46vh] sm:h-[50vh] lg:h-full flex flex-col border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-neutral-800 shrink-0 bg-neutral-100 dark:bg-neutral-950 overflow-hidden">
                 {/* Mock Browser Header Bar */}
@@ -250,7 +266,12 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
               </div>
 
               {/* Right Column: Project Details Panel */}
-              <div className="w-full lg:w-[40%] xl:w-[38%] flex-1 lg:h-full flex flex-col justify-between overflow-y-auto p-5 sm:p-7 md:p-8 bg-white dark:bg-neutral-900 scrollbar-thin">
+              <motion.div
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.08, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full lg:w-[40%] xl:w-[38%] flex-1 lg:h-full flex flex-col justify-between overflow-y-auto p-5 sm:p-7 md:p-8 bg-white dark:bg-neutral-900 scrollbar-thin"
+              >
                 <div className="space-y-6">
                   {/* Panel Top Header Bar with Close Button */}
                   <div className="flex items-center justify-between pb-4 border-b border-neutral-200/80 dark:border-neutral-800">
@@ -338,12 +359,22 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                     </a>
                   </div>
                 )}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ) : (
             /* Standard Lightbox Display */
-            <div
-              className="relative max-w-5xl w-full max-h-[92vh] flex flex-col bg-white dark:bg-neutral-900 overflow-hidden shadow-2xl border border-neutral-200 dark:border-neutral-800"
+            <motion.div
+              key={`modal-standard-${selectedProject.id}`}
+              initial={{ opacity: 0, scale: 0.93, y: 22 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 14 }}
+              transition={{
+                type: "spring",
+                stiffness: 340,
+                damping: 30,
+                mass: 0.8,
+              }}
+              className="relative max-w-5xl w-full max-h-[92vh] flex flex-col bg-white dark:bg-neutral-900 overflow-hidden shadow-2xl border border-neutral-200 dark:border-neutral-800 will-change-transform"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Image Display */}
@@ -386,10 +417,11 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
       )}
+    </AnimatePresence>
 
       {/* Bottom Navigation */}
       <div className="mt-20 pt-8 flex items-center justify-start">
