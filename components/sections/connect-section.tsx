@@ -138,6 +138,19 @@ function XFullColorLogo({ className = "w-8 h-8" }: { className?: string }) {
   );
 }
 
+// Official Full-Colour Linktree Logo (Vibrant Neon Green Squircle with Black Branch Vector)
+function LinktreeFullColorLogo({ className = "w-8 h-8" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} role="img" aria-label="Linktree">
+      {/* Official Linktree Neon Green Squircle Tile matching Instagram, Gmail, and X */}
+      <rect width="24" height="24" rx="5.5" fill="#43E660" />
+      <g transform="translate(4.2, 4.2) scale(0.65)" fill="#000000">
+        <path d="m13.73635 5.85251 4.00467-4.11665 2.3248 2.3808-4.20064 4.00466h5.9085v3.30473h-5.9365l4.22865 4.10766-2.3248 2.3338L12.0005 12.099l-5.74052 5.76852-2.3248-2.3248 4.22864-4.10766h-5.9375V8.12132h5.9085L3.93417 4.11666l2.3248-2.3808 4.00468 4.11665V0h3.4727zm-3.4727 10.30614h3.4727V24h-3.4727z" />
+      </g>
+    </svg>
+  );
+}
+
 // Configurable channels - URLs will be replaced once provided by user
 export const CONNECT_CHANNELS: ConnectChannel[] = [
   {
@@ -164,6 +177,14 @@ export const CONNECT_CHANNELS: ConnectChannel[] = [
     actionText: "Follow",
     icon: XFullColorLogo,
   },
+  {
+    id: "linktree",
+    name: "Linktree",
+    handle: "linktr.ee/osati116",
+    href: "https://linktr.ee/osati116",
+    actionText: "Connect",
+    icon: LinktreeFullColorLogo,
+  },
 ];
 
 export function ConnectSection() {
@@ -174,8 +195,11 @@ export function ConnectSection() {
     <section
       ref={sectionRef}
       id="connect"
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 scroll-mt-24 overflow-hidden"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 scroll-mt-24 overflow-hidden relative"
     >
+      {/* Anchor alias to support #contact deep linking seamlessly */}
+      <div id="contact" className="absolute -top-24 left-0 pointer-events-none" />
+
       <motion.div
         style={{ scale, opacity }}
         className="origin-center w-full will-change-transform"
@@ -190,8 +214,8 @@ export function ConnectSection() {
           </p>
         </div>
 
-        {/* Compact 3-Column Connect Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 max-w-3xl">
+        {/* Compact 4-Column Connect Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl">
           {CONNECT_CHANNELS.map((channel) => {
             const Icon = channel.icon;
             const isEmail = channel.href.startsWith("mailto:");
