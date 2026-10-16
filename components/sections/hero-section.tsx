@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "Shop", href: "#shop", tag: "04" },
 ];
 
-function TypingName({ name = "Osahumhen Timothy Iyamah," }: { name?: string }) {
+function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
   const [displayText, setDisplayText] = React.useState("");
   const [isDeleting, setIsDeleting] = React.useState(false);
 
@@ -52,12 +52,9 @@ function TypingName({ name = "Osahumhen Timothy Iyamah," }: { name?: string }) {
       <span className="invisible pointer-events-none select-none" aria-hidden="true">
         {name}
       </span>
-      {/* Dynamic endless typing text */}
+      {/* Dynamic endless typing text with cursor right beside final letter */}
       <span className="absolute left-0 top-0 w-full sm:w-auto">
-        {displayText}
-        <span className="inline-block ml-0.5 sm:ml-1 font-light text-black dark:text-white animate-cursor">
-          |
-        </span>
+        <span>{displayText}</span><span className="inline-block font-light text-black dark:text-white animate-cursor select-none leading-none -translate-y-[1px]">|</span>
       </span>
     </span>
   );
@@ -137,7 +134,7 @@ export function HeroSection() {
               </span>
               {/* Endless typing name displaying on both desktop and mobile views */}
               <span className="block">
-                <TypingName name="Osahumhen Timothy Iyamah," />
+                <TypingName name="Osahumhen Timothy Iyamah" />
               </span>
               <span className="block">
                 <span className="block sm:inline">

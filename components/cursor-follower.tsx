@@ -95,14 +95,14 @@ export function CursorFollower() {
         translateY: "-50%",
       }}
       animate={{
-        scale: isClicked ? 0.75 : isHovered ? 1.6 : 1,
-        opacity: isVisible ? (isHovered ? 0.8 : 0.9) : 0,
+        scale: isClicked ? 0.8 : isHovered ? 1.5 : 1,
+        opacity: isVisible ? (isHovered ? 1 : 0.85) : 0,
       }}
       transition={{
-        scale: { type: "spring", damping: 20, stiffness: 400 },
+        scale: { type: "spring", damping: 22, stiffness: 380 },
         opacity: { duration: 0.15 },
       }}
-      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block w-6 h-6 rounded-full bg-black dark:bg-white transition-colors duration-300 shadow-sm"
+      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block w-7 h-7 rounded-full bg-transparent border-2 border-black dark:border-white transition-colors duration-300"
     />
   );
 }
