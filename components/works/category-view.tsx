@@ -54,12 +54,6 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
         <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider">
           {project.year}
         </div>
-        {project.fullScreenshotUrl && (
-          <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider flex items-center gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Scroll Full Page</span>
-          </div>
-        )}
       </div>
 
       {/* Left-Aligned Information Underneath */}
@@ -70,12 +64,7 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
           </h3>
           <ArrowUpRight className="w-4 h-4 text-black dark:text-white shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
-        {project.fullScreenshotUrl ? (
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            <span>Click to scroll full page</span>
-          </p>
-        ) : project.description ? (
+        {project.description ? (
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2">
             {project.description}
           </p>
@@ -231,8 +220,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                 <span className="truncate pr-2 font-medium text-neutral-800 dark:text-neutral-200">
                   {selectedProject.title}
                 </span>
-                <span className="shrink-0 flex items-center gap-1 text-[11px]">
-                  <span className="hidden sm:inline">Scroll to view full page • </span>
+                <span className="shrink-0 text-[11px]">
                   {selectedProject.year}
                 </span>
               </div>

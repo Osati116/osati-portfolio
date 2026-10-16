@@ -118,7 +118,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2024",
         imageUrl: "/works/web-design/design-kitchen-web-v2.jpg",
         fullScreenshotUrl: "/works/web-design/design-kitchen-full-hd.jpg",
-        description: "Full-page digital experience and design system landing page for Design Kitchen Studio. Click to expand and scroll through the entire landing page.",
+        description: "Full-page digital experience and design system landing page for Design Kitchen Studio.",
         aspectRatio: "16/11",
       },
       {
