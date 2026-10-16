@@ -102,7 +102,7 @@ export function CursorFollower() {
         scale: { type: "spring", damping: 22, stiffness: 380 },
         opacity: { duration: 0.15 },
       }}
-      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block w-7 h-7 rounded-full bg-transparent border-2 border-black dark:border-[3px] dark:border-white dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.85)] transition-colors duration-200"
+      className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block w-7 h-7 rounded-full bg-transparent border-2 border-black dark:border-[3.5px] dark:border-white transition-colors duration-200"
     />
   );
 }
