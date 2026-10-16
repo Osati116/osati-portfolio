@@ -46,15 +46,15 @@ function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
     return () => clearTimeout(timeoutId);
   }, [displayText, isDeleting, name]);
 
+  const lastSpaceIndex = displayText.lastIndexOf(" ");
+  const leadingText = lastSpaceIndex !== -1 ? displayText.slice(0, lastSpaceIndex + 1) : "";
+  const trailingWord = lastSpaceIndex !== -1 ? displayText.slice(lastSpaceIndex + 1) : displayText;
+
   return (
-    <span className="relative inline-block w-full sm:w-auto select-text" aria-label={name}>
-      {/* Invisible layout placeholder so line breaks and container bounds never shift */}
-      <span className="invisible pointer-events-none select-none" aria-hidden="true">
-        {name}
-      </span>
-      {/* Dynamic endless typing text with cursor right beside final letter */}
-      <span className="absolute left-0 top-0 w-full sm:w-auto">
-        <span>{displayText}</span><span className="inline-block font-light text-black dark:text-white animate-cursor select-none leading-none -translate-y-[1px]">|</span>
+    <span className="inline select-text" aria-label={name}>
+      <span>{leadingText}</span>
+      <span className="whitespace-nowrap">
+        <span>{trailingWord}</span><span className="inline-block font-light text-black dark:text-white animate-cursor select-none leading-none -translate-y-[1px]">|</span>
       </span>
     </span>
   );
@@ -133,7 +133,7 @@ export function HeroSection() {
                 Hi, I&apos;m
               </span>
               {/* Endless typing name displaying on both desktop and mobile views */}
-              <span className="block">
+              <span className="block min-h-[1.2em]">
                 <TypingName name="Osahumhen Timothy Iyamah" />
               </span>
               <span className="block">
