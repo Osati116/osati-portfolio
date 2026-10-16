@@ -160,3 +160,11 @@ body {
 .dark ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Condensed block typography (Champion Gothic Black free alternative) */
+.font-anton,
+.font-champion {
+  font-family: 'Anton', 'Bebas Neue', 'Impact', sans-serif !important;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
