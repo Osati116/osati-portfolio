@@ -3,6 +3,7 @@ import { Geist, Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
+import { CursorFollower } from "@/components/cursor-follower";
 import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
@@ -102,6 +103,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange={false}
         >
+          <CursorFollower />
           <Navbar />
           <main className="flex-1 flex flex-col pt-16">
             {children}

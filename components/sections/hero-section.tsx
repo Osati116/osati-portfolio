@@ -12,80 +12,52 @@ const NAV_LINKS = [
   { label: "Shop", href: "#shop", tag: "04" },
 ];
 
-function DesktopTypingName({ name = "Osahumhen Timothy Iyamah," }: { name?: string }) {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [displayText, setDisplayText] = React.useState(name);
+function TypingName({ name = "Osahumhen Timothy Iyamah," }: { name?: string }) {
+  const [displayText, setDisplayText] = React.useState("");
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   React.useEffect(() => {
-    if (!isHovered) {
-      setDisplayText(name);
-      return;
-    }
-
-    let isCancelled = false;
     let timeoutId: NodeJS.Timeout;
 
-    let currentIndex = 0;
-    let mode: "typing" | "pausing_full" | "deleting" | "pausing_empty" = "typing";
-    setDisplayText("");
-
-    const tick = () => {
-      if (isCancelled) return;
-
-      if (mode === "typing") {
-        if (currentIndex < name.length) {
-          currentIndex++;
-          setDisplayText(name.slice(0, currentIndex));
-          timeoutId = setTimeout(tick, 55);
-        } else {
-          mode = "pausing_full";
-          timeoutId = setTimeout(tick, 900);
-        }
-      } else if (mode === "pausing_full") {
-        mode = "deleting";
-        timeoutId = setTimeout(tick, 28);
-      } else if (mode === "deleting") {
-        if (currentIndex > 0) {
-          currentIndex--;
-          setDisplayText(name.slice(0, currentIndex));
-          timeoutId = setTimeout(tick, 28);
-        } else {
-          mode = "pausing_empty";
-          timeoutId = setTimeout(tick, 300);
-        }
-      } else if (mode === "pausing_empty") {
-        mode = "typing";
-        timeoutId = setTimeout(tick, 55);
+    if (!isDeleting) {
+      if (displayText.length < name.length) {
+        timeoutId = setTimeout(() => {
+          setDisplayText(name.slice(0, displayText.length + 1));
+        }, 70);
+      } else {
+        // Completed typing full name: hold for 2.6s so it can be comfortably read
+        timeoutId = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2600);
       }
-    };
+    } else {
+      if (displayText.length > 0) {
+        timeoutId = setTimeout(() => {
+          setDisplayText(name.slice(0, displayText.length - 1));
+        }, 32);
+      } else {
+        // Paused at empty for 400ms before looping endlessly
+        timeoutId = setTimeout(() => {
+          setIsDeleting(false);
+        }, 400);
+      }
+    }
 
-    timeoutId = setTimeout(tick, 40);
-
-    return () => {
-      isCancelled = true;
-      clearTimeout(timeoutId);
-    };
-  }, [isHovered, name]);
+    return () => clearTimeout(timeoutId);
+  }, [displayText, isDeleting, name]);
 
   return (
-    <span
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative inline-block cursor-pointer select-text"
-      aria-label={name}
-    >
-      {/* Invisible layout placeholder so line wrapping and width never shift */}
+    <span className="relative inline-block w-full sm:w-auto select-text" aria-label={name}>
+      {/* Invisible layout placeholder so line breaks and container bounds never shift */}
       <span className="invisible pointer-events-none select-none" aria-hidden="true">
         {name}
       </span>
-      {/* Dynamic typing text */}
-      <span className="absolute left-0 top-0 whitespace-nowrap">
+      {/* Dynamic endless typing text */}
+      <span className="absolute left-0 top-0 w-full sm:w-auto">
         {displayText}
-        {isHovered && (
-          <span className="inline-block ml-0.5 font-light animate-pulse text-black dark:text-white">
-            |
-          </span>
-        )}
+        <span className="inline-block ml-0.5 sm:ml-1 font-light text-black dark:text-white animate-cursor">
+          |
+        </span>
       </span>
     </span>
   );
@@ -163,16 +135,9 @@ export function HeroSection() {
               <span className="block transition-opacity duration-200 hover:opacity-60">
                 Hi, I&apos;m
               </span>
-              {/* Mobile name breakdown (3 separate lines, clean and static) */}
-              <span className="block sm:hidden">
-                <span className="block">Osahumhen</span>
-                <span className="block">Timothy</span>
-                <span className="block">Iyamah,</span>
-              </span>
-
-              {/* Desktop name with interactive typewriter animation on hover */}
-              <span className="hidden sm:block">
-                <DesktopTypingName name="Osahumhen Timothy Iyamah," />
+              {/* Endless typing name displaying on both desktop and mobile views */}
+              <span className="block">
+                <TypingName name="Osahumhen Timothy Iyamah," />
               </span>
               <span className="block">
                 <span className="block sm:inline">
