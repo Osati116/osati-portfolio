@@ -117,6 +117,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         year: "2024",
         imageUrl: "/works/web-design/design-kitchen-web.png",
         description: "Modern interactive digital platform and agency portfolio for Design Kitchen Studio, featuring vibrant fluid gradient themes and responsive typography.",
+        aspectRatio: "16/11",
       },
       {
         id: "wd-2",

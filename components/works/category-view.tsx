@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, X } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { PortfolioCategory, ProjectItem } from "@/lib/portfolio-data";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ interface CategoryViewProps {
   allCategories: PortfolioCategory[];
 }
 
-function ProjectCard({ project }: { project: ProjectItem }) {
+function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: () => void }) {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -30,7 +30,8 @@ function ProjectCard({ project }: { project: ProjectItem }) {
     <motion.div 
       ref={cardRef} 
       style={{ scale, opacity }} 
-      className="group flex flex-col origin-center"
+      onClick={onSelect}
+      className="group flex flex-col origin-center cursor-pointer"
     >
       {/* Project Image Card with proportional aspect ratio and sharp 90° corners */}
       <div 
@@ -74,6 +75,7 @@ function ProjectCard({ project }: { project: ProjectItem }) {
 }
 
 export function CategoryView({ category, allCategories }: CategoryViewProps) {
+  const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
   const headerRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -82,6 +84,25 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
 
   const headerScale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.85], [0.4, 1]);
+
+  // Handle ESC key to dismiss modal
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedProject(null);
+      }
+    };
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedProject]);
 
   return (
     <div className="w-full">
@@ -143,9 +164,64 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
           <ProjectCard 
             key={project.id} 
             project={project} 
+            onSelect={() => setSelectedProject(project)}
           />
         ))}
       </div>
+
+      {/* Lightbox Modal on Project Click */}
+      {selectedProject && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-in fade-in duration-200"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div
+            className="relative max-w-5xl w-full max-h-[92vh] flex flex-col bg-white dark:bg-neutral-900 overflow-hidden shadow-2xl border border-neutral-200 dark:border-neutral-800"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Image Display */}
+            <div 
+              className="relative w-full aspect-[16/11] max-h-[72vh] overflow-hidden"
+              style={{
+                backgroundColor: selectedProject.bgColor || "#0a0a0a"
+              }}
+            >
+              <Image
+                src={selectedProject.imageUrl}
+                alt={selectedProject.title}
+                fill
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className="object-contain"
+                priority
+              />
+              <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-mono tracking-wider">
+                {selectedProject.year}
+              </div>
+            </div>
+
+            {/* Modal Metadata Footer */}
+            <div className="p-5 sm:p-6 flex items-start justify-between gap-4 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+              <div className="space-y-1.5">
+                <h3 className="text-lg sm:text-xl font-normal text-black dark:text-white xanh-mono-regular">
+                  {selectedProject.title}
+                </h3>
+                {selectedProject.description && (
+                  <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">
+                    {selectedProject.description}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="p-2 text-neutral-500 hover:text-black dark:hover:text-white transition-colors cursor-pointer shrink-0"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <div className="mt-20 pt-8 flex items-center justify-start">
