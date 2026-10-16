@@ -241,28 +241,6 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                       className="w-full h-auto block select-none"
                     />
                   </div>
-
-                  {/* Bottom Information Footer under the container (Zero Black Lines in Light Mode) */}
-                  <div className="px-4 sm:px-5 py-2.5 bg-neutral-100/80 dark:bg-neutral-900/60 border-none dark:border-t dark:border-neutral-800 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 font-mono shrink-0">
-                    {selectedProject.liveUrl ? (
-                      <a
-                        href={selectedProject.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-1.5 font-medium text-black dark:text-white hover:opacity-70 transition-opacity cursor-pointer"
-                      >
-                        <span>View Website</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </a>
-                    ) : (
-                      <span className="truncate pr-2 font-medium text-neutral-800 dark:text-neutral-200">
-                        {selectedProject.title}
-                      </span>
-                    )}
-                    <span className="shrink-0 text-[11px]">
-                      {selectedProject.year}
-                    </span>
-                  </div>
                 </div>
 
                 {/* Right Column: Project Details Panel (Zero Black Lines in Light Mode) */}
