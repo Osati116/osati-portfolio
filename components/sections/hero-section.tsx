@@ -102,7 +102,7 @@ function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
   const trailingWord = lastSpaceIndex !== -1 ? displayText.slice(lastSpaceIndex + 1) : displayText;
 
   return (
-    <span className="inline select-text" aria-label={name}>
+    <span className="inline select-text whitespace-nowrap" aria-label={name}>
       <span>{leadingText}</span>
       <span className="whitespace-nowrap">
         <span>{trailingWord}</span>
@@ -179,13 +179,13 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[3.85rem] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.2] sm:leading-[1.16] mb-4 sm:mb-5 max-w-4xl cursor-default select-text"
+              className="text-[clamp(1.35rem,5.2vw,1.875rem)] sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[3.85rem] font-normal tracking-tight text-black dark:text-white xanh-mono-regular leading-[1.2] sm:leading-[1.16] mb-4 sm:mb-5 max-w-4xl cursor-default select-text"
             >
               <span className="block transition-opacity duration-200 hover:opacity-60">
                 Hi, I&apos;m
               </span>
-              {/* Endless typing name displaying on both desktop and mobile views with balanced font size */}
-              <span className="block min-h-[1.2em]">
+              {/* Endless typing name displaying on both desktop and mobile views without spillover */}
+              <span className="block whitespace-nowrap min-h-[1.2em]">
                 <TypingName name="Osahumhen Timothy Iyamah" />
               </span>
               <span className="block">
