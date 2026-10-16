@@ -253,12 +253,11 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                       </span>
                       <button
                         onClick={() => setSelectedProject(null)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors duration-75 cursor-pointer text-xs font-mono border-0 group"
+                        className="p-1 -mr-1 text-neutral-400 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-75 cursor-pointer border-0 bg-transparent group"
                         aria-label="Close project view"
                         data-cursor-close="true"
                       >
-                        <span className="transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400">Close</span>
-                        <X className="w-4 h-4 transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400" />
+                        <X className="w-5 h-5 transition-colors duration-75 group-hover:text-red-600 dark:group-hover:text-red-400" />
                       </button>
                     </div>
 
