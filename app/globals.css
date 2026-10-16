@@ -207,3 +207,34 @@ body {
   font-family: 'TeXGyreAdventor', 'Century Gothic', 'Avant Garde', sans-serif !important;
   letter-spacing: -0.015em;
 }
+
+/* Futuristic Alien Language & Cyber Glitch-Out Animations */
+@keyframes alien-glitch-skew {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1.5px, 0.5px);
+  }
+  40% {
+    transform: translate(1.5px, -0.5px);
+  }
+  60% {
+    transform: translate(-1px, 0.25px);
+  }
+  80% {
+    transform: translate(1px, -0.25px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch-active {
+  animation: alien-glitch-skew 0.18s ease-in-out infinite;
+  text-shadow: -1.5px 0 rgba(255, 0, 90, 0.65), 1.5px 0 rgba(0, 200, 255, 0.65);
+}
+
+.dark .glitch-active {
+  text-shadow: -2px 0 rgba(0, 255, 230, 0.8), 2px 0 rgba(255, 0, 150, 0.8), 0 0 8px rgba(255, 255, 255, 0.5);
+}

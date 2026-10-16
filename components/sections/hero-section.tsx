@@ -12,49 +12,177 @@ const NAV_LINKS = [
   { label: "Shop", href: "#shop", tag: "04" },
 ];
 
+const ALIEN_GLYPHS = "⍟⏣⌬⍎⍕⍱⍲⍳⍴⍶⍷ᚠᚥᚦᛏᛒᛖᛗᛚᛜᛟᛞᚲꘐꘒꘓꘔꘖ⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⎔⎕⏥⏦⏧⏨Ø∆⌖§¥◊◈◆◇01XZ".split("");
+
+function getRandomGlyph(): string {
+  return ALIEN_GLYPHS[Math.floor(Math.random() * ALIEN_GLYPHS.length)];
+}
+
+function generateAlienString(target: string, len: number): string {
+  let s = "";
+  for (let i = 0; i < len; i++) {
+    s += target[i] === " " ? " " : getRandomGlyph();
+  }
+  return s;
+}
+
+type AlienPhase =
+  | "ALIEN_STREAM"
+  | "ALIEN_HOLD"
+  | "DECODING"
+  | "RESOLVED"
+  | "GLITCHING"
+  | "COLLAPSING"
+  | "PAUSE";
+
 function TypingName({ name = "Osahumhen Timothy Iyamah" }: { name?: string }) {
+  const [phase, setPhase] = React.useState<AlienPhase>("ALIEN_STREAM");
+  const [streamIndex, setStreamIndex] = React.useState(0);
+  const [decodeIndex, setDecodeIndex] = React.useState(0);
+  const [glitchFrame, setGlitchFrame] = React.useState(0);
+  const [collapseIndex, setCollapseIndex] = React.useState(0);
   const [displayText, setDisplayText] = React.useState("");
-  const [isDeleting, setIsDeleting] = React.useState(false);
+  const [isGlitching, setIsGlitching] = React.useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
   React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setPrefersReducedMotion(media.matches);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (prefersReducedMotion) {
+      setDisplayText(name);
+      return;
+    }
+
     let timeoutId: NodeJS.Timeout;
 
-    if (!isDeleting) {
-      if (displayText.length < name.length) {
+    if (phase === "ALIEN_STREAM") {
+      setIsGlitching(false);
+      if (streamIndex < name.length) {
         timeoutId = setTimeout(() => {
-          setDisplayText(name.slice(0, displayText.length + 1));
-        }, 70);
+          const nextIndex = streamIndex + 1;
+          setStreamIndex(nextIndex);
+          setDisplayText(generateAlienString(name, nextIndex));
+        }, name[streamIndex] === " " ? 10 : 22);
       } else {
-        // Completed typing full name: hold for 2.6s so it can be comfortably read
         timeoutId = setTimeout(() => {
-          setIsDeleting(true);
-        }, 2600);
+          setPhase("ALIEN_HOLD");
+        }, 120);
       }
-    } else {
-      if (displayText.length > 0) {
+    } else if (phase === "ALIEN_HOLD") {
+      let ticks = 0;
+      const intervalId = setInterval(() => {
+        ticks++;
+        setDisplayText(generateAlienString(name, name.length));
+        if (ticks >= 5) {
+          clearInterval(intervalId);
+          setDecodeIndex(0);
+          setPhase("DECODING");
+        }
+      }, 65);
+      return () => clearInterval(intervalId);
+    } else if (phase === "DECODING") {
+      if (decodeIndex <= name.length) {
         timeoutId = setTimeout(() => {
-          setDisplayText(name.slice(0, displayText.length - 1));
-        }, 32);
+          let text = "";
+          for (let i = 0; i < name.length; i++) {
+            if (name[i] === " ") {
+              text += " ";
+            } else if (i < decodeIndex) {
+              text += name[i];
+            } else {
+              text += getRandomGlyph();
+            }
+          }
+          setDisplayText(text);
+          setDecodeIndex((prev) => prev + 1);
+        }, name[decodeIndex] === " " ? 12 : 32);
       } else {
-        // Paused at empty for 400ms before looping endlessly
-        timeoutId = setTimeout(() => {
-          setIsDeleting(false);
-        }, 400);
+        setDisplayText(name);
+        setPhase("RESOLVED");
       }
+    } else if (phase === "RESOLVED") {
+      setIsGlitching(false);
+      timeoutId = setTimeout(() => {
+        setGlitchFrame(0);
+        setPhase("GLITCHING");
+      }, 3200);
+    } else if (phase === "GLITCHING") {
+      setIsGlitching(true);
+      const glitchRatios = [0.2, 0.45, 0.75, 1.0, 1.0];
+      if (glitchFrame < glitchRatios.length) {
+        timeoutId = setTimeout(() => {
+          const ratio = glitchRatios[glitchFrame];
+          let text = "";
+          for (let i = 0; i < name.length; i++) {
+            if (name[i] === " ") {
+              text += " ";
+            } else if (Math.random() < ratio) {
+              text += getRandomGlyph();
+            } else {
+              text += name[i];
+            }
+          }
+          setDisplayText(text);
+          setGlitchFrame((prev) => prev + 1);
+        }, 45);
+      } else {
+        setCollapseIndex(name.length);
+        setPhase("COLLAPSING");
+      }
+    } else if (phase === "COLLAPSING") {
+      if (collapseIndex > 0) {
+        timeoutId = setTimeout(() => {
+          const nextCollapse = Math.max(0, collapseIndex - 5);
+          setCollapseIndex(nextCollapse);
+          let text = "";
+          for (let i = 0; i < nextCollapse; i++) {
+            text += name[i] === " " ? " " : getRandomGlyph();
+          }
+          setDisplayText(text);
+        }, 35);
+      } else {
+        setDisplayText("");
+        setIsGlitching(false);
+        setPhase("PAUSE");
+      }
+    } else if (phase === "PAUSE") {
+      timeoutId = setTimeout(() => {
+        setStreamIndex(0);
+        setPhase("ALIEN_STREAM");
+      }, 350);
     }
 
     return () => clearTimeout(timeoutId);
-  }, [displayText, isDeleting, name]);
+  }, [phase, streamIndex, decodeIndex, glitchFrame, collapseIndex, name, prefersReducedMotion]);
+
+  const handleTriggerGlitch = () => {
+    if (phase === "RESOLVED") {
+      setGlitchFrame(0);
+      setPhase("GLITCHING");
+    }
+  };
 
   const lastSpaceIndex = displayText.lastIndexOf(" ");
   const leadingText = lastSpaceIndex !== -1 ? displayText.slice(0, lastSpaceIndex + 1) : "";
   const trailingWord = lastSpaceIndex !== -1 ? displayText.slice(lastSpaceIndex + 1) : displayText;
 
   return (
-    <span className="inline select-text" aria-label={name}>
-      <span>{leadingText}</span>
-      <span className="whitespace-nowrap">
-        <span>{trailingWord}</span><span className="inline-block font-light text-black dark:text-white animate-cursor select-none leading-none -translate-y-[1px]">|</span>
+    <span
+      className={`inline select-text cursor-pointer transition-all duration-150 ${isGlitching ? "glitch-active" : ""}`}
+      aria-label={name}
+      onClick={handleTriggerGlitch}
+      onMouseEnter={handleTriggerGlitch}
+      title="Click or hover to trigger alien language cipher"
+    >
+      <span aria-hidden="true">{leadingText}</span>
+      <span className="whitespace-nowrap" aria-hidden="true">
+        <span>{trailingWord}</span>
+        <span className="inline-block font-light text-black dark:text-white animate-cursor select-none leading-none -translate-y-[1px]">|</span>
       </span>
     </span>
   );
