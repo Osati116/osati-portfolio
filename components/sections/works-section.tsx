@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useSectionScrollTransition } from "@/lib/scroll-transition";
 import { PORTFOLIO_CATEGORIES } from "@/lib/portfolio-data";
 
@@ -111,62 +111,49 @@ function IllustrationAnimatedCard() {
 const WEB_DESIGN_WORDS = ["DIGITALLY", "DRIVEN", "EXPERIENCES"];
 
 function WebDesignAnimatedCard() {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [wordIndex, setWordIndex] = React.useState(0);
+  const [displayText, setDisplayText] = React.useState("");
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   React.useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % WEB_DESIGN_WORDS.length);
-    }, 1150);
-    return () => clearInterval(timer);
-  }, []);
+    const currentWord = WEB_DESIGN_WORDS[wordIndex];
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting) {
+      if (displayText.length < currentWord.length) {
+        // Typing forward: crisp ~110ms per letter
+        timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        }, 110);
+      } else {
+        // Full word typed: pause so visitor comfortably reads it
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 1400);
+      }
+    } else {
+      if (displayText.length > 0) {
+        // Backspacing: fast ~45ms per letter
+        timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length - 1));
+        }, 45);
+      } else {
+        // Erased: pause briefly, then advance to next word
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+          setWordIndex((prev) => (prev + 1) % WEB_DESIGN_WORDS.length);
+        }, 280);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, wordIndex]);
 
   return (
-    <div 
-      className="relative aspect-[16/11] w-full overflow-hidden bg-white text-black p-3.5 sm:p-4 flex flex-col justify-between transition-all duration-300 group-hover:shadow-md origin-center select-none border border-neutral-200/80"
-      onMouseEnter={() => {
-        setCurrentIndex((prev) => (prev + 1) % WEB_DESIGN_WORDS.length);
-      }}
-    >
-      {/* Top subtle meta row */}
-      <div className="flex items-center justify-between text-neutral-400 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase">
-        <span className="font-semibold text-neutral-700">WEB // DESIGN</span>
-        <div className="flex items-center gap-1">
-          {WEB_DESIGN_WORDS.map((_, idx) => (
-            <span
-              key={idx}
-              className={`h-1 rounded-full transition-all duration-300 ${
-                idx === currentIndex ? "w-3.5 bg-black" : "w-1 bg-neutral-300"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Center Kinetic Typography */}
-      <div className="relative w-full flex-1 flex items-center justify-center overflow-hidden my-auto min-h-[56px]">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={WEB_DESIGN_WORDS[currentIndex]}
-            initial={{ y: 38, opacity: 0, filter: "blur(6px)", scale: 0.92 }}
-            animate={{ y: 0, opacity: 1, filter: "blur(0px)", scale: 1 }}
-            exit={{ y: -38, opacity: 0, filter: "blur(6px)", scale: 1.05 }}
-            transition={{
-              y: { type: "spring", stiffness: 440, damping: 28, mass: 0.7 },
-              opacity: { duration: 0.2 },
-              filter: { duration: 0.18 },
-              scale: { duration: 0.24 },
-            }}
-            className="absolute inset-x-0 text-center font-anton text-2xl sm:text-3xl md:text-2xl lg:text-[1.7rem] xl:text-3xl font-normal uppercase tracking-tight text-black leading-none whitespace-nowrap will-change-transform"
-          >
-            {WEB_DESIGN_WORDS[currentIndex]}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Bottom subtle meta row */}
-      <div className="flex items-center justify-between text-neutral-400 font-mono text-[9px] tracking-wider uppercase">
-        <span className="text-[9px] text-neutral-600 font-medium">DIGITAL EXPERIENCES</span>
-        <span className="text-[9px] text-neutral-600 font-semibold">0{currentIndex + 1} / 03</span>
+    <div className="relative aspect-[16/11] w-full overflow-hidden bg-white text-black p-4 flex items-center justify-center transition-all duration-300 group-hover:shadow-md origin-center select-none">
+      <div className="flex items-center justify-center font-anton text-2xl sm:text-3xl md:text-2xl lg:text-[1.85rem] xl:text-[2.2rem] font-normal uppercase tracking-tight text-black leading-none whitespace-nowrap min-h-[1.2em]">
+        <span>{displayText}</span>
+        <span className="inline-block w-[3px] h-[0.9em] bg-black ml-1.5 align-middle animate-cursor" />
       </div>
     </div>
   );
