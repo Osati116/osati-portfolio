@@ -216,10 +216,12 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
               </div>
 
               {/* Scrollable Screenshot Area */}
-              <div className="flex-1 overflow-y-auto overscroll-contain bg-neutral-100 dark:bg-neutral-950">
+              <div className="flex-1 overflow-y-auto overscroll-contain bg-neutral-100 dark:bg-neutral-950 scrollbar-thin">
                 <img
                   src={selectedProject.fullScreenshotUrl}
                   alt={selectedProject.title}
+                  loading="eager"
+                  decoding="sync"
                   className="w-full h-auto block select-none"
                 />
               </div>

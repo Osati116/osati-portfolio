@@ -108,7 +108,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     slug: "web-design",
     name: "Web Design",
     tag: ".../2024",
-    coverImage: "/works/web-design/design-kitchen-web.png",
+    coverImage: "/works/web-design/design-kitchen-web-v2.jpg",
     subtitle: "Digital experiences & interface design",
     description: "Responsive web design, digital architecture, interactive prototypes, and modern editorial web experiences built with clean visual hierarchy.",
     projects: [
@@ -116,7 +116,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         id: "wd-design-kitchen",
         title: "Design Agency website project",
         year: "2024",
-        imageUrl: "/works/web-design/design-kitchen-web.png",
+        imageUrl: "/works/web-design/design-kitchen-web-v2.jpg",
         fullScreenshotUrl: "/works/web-design/design-kitchen-full-hd.jpg",
         description: "Full-page digital experience and design system landing page for Design Kitchen Studio. Click to expand and scroll through the entire landing page.",
         aspectRatio: "16/11",
