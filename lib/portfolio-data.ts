@@ -107,16 +107,16 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     slug: "web-design",
     name: "Web Design",
     tag: ".../2024",
-    coverImage: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "/works/web-design/design-kitchen-web.png",
     subtitle: "Digital experiences & interface design",
     description: "Responsive web design, digital architecture, interactive prototypes, and modern editorial web experiences built with clean visual hierarchy.",
     projects: [
       {
-        id: "wd-1",
-        title: "Kroma Studio Web Experience",
+        id: "wd-design-kitchen",
+        title: "Design Kitchen Web Experience",
         year: "2024",
-        imageUrl: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
-        description: "Editorial interactive portfolio and spatial web layout for an architecture studio.",
+        imageUrl: "/works/web-design/design-kitchen-web.png",
+        description: "Modern interactive digital platform and agency portfolio for Design Kitchen Studio, featuring vibrant fluid gradient themes and responsive typography.",
       },
       {
         id: "wd-2",
