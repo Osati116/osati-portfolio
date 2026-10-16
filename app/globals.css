@@ -208,3 +208,11 @@ body {
   letter-spacing: -0.015em;
 }
 
+/* Hide site navbar when popup container opens so the container is on top of the webpage */
+body.modal-open header {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-100%) !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+

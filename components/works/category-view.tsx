@@ -46,6 +46,8 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
           src={project.imageUrl}
           alt={project.title}
           fill
+          unoptimized
+          priority
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className={cn(
             "transition-transform duration-700 group-hover:scale-105",
@@ -95,12 +97,15 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
     };
     if (selectedProject) {
       document.body.style.overflow = "hidden";
+      document.body.classList.add("modal-open");
       window.addEventListener("keydown", handleKeyDown);
     } else {
       document.body.style.overflow = "auto";
+      document.body.classList.remove("modal-open");
     }
     return () => {
       document.body.style.overflow = "auto";
+      document.body.classList.remove("modal-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedProject]);
@@ -179,7 +184,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-8 bg-black/80 dark:bg-black/85 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 md:p-8 bg-black/80 dark:bg-black/85 backdrop-blur-md"
             onClick={() => setSelectedProject(null)}
           >
             {selectedProject.fullScreenshotUrl ? (
