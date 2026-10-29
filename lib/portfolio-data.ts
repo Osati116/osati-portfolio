@@ -10,6 +10,7 @@ export interface ProjectItem {
   aspectRatio?: string;
   bgColor?: string;
   liveUrl?: string;
+  pages?: string[];
 }
 
 export interface PortfolioCategory {
@@ -171,37 +172,23 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     slug: "publication",
     name: "Publication",
     tag: ".../2024",
-    coverImage: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
-    subtitle: "Editorial books & Zines",
-    description: "Curated print publication design, multi-column editorial layout grids, hardcover monograph packaging, and brutalist design zines.",
+    coverImage: "/works/publication/the-chiefs-daughter-cover.jpg",
+    subtitle: "Editorial book design & story layout",
+    description: "Curated editorial book design, custom cover illustration, typographic interior layouts, and illustrated story pages.",
     projects: [
       {
-        id: "pb-1",
-        title: "Archiv Scandinavian Monographs",
+        id: "pb-the-chiefs-daughter",
+        title: "The Chief's Daughter",
         year: "2024",
-        imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
-        description: "Hardcover editorial book design featuring Swiss typographic grid structures.",
-      },
-      {
-        id: "pb-2",
-        title: "Form & Void Magazine No. 03",
-        year: "2024",
-        imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1200&q=80",
-        description: "Brutalist typography zine with multi-column layouts and matte paper stock.",
-      },
-      {
-        id: "pb-3",
-        title: "Neue Spatial Journal",
-        year: "2023",
-        imageUrl: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80",
-        description: "Architectural bi-annual print edition with foil-stamped monochrome covers.",
-      },
-      {
-        id: "pb-4",
-        title: "Typographic Manifesto Folio",
-        year: "2023",
-        imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
-        description: "Limited-run boxed collection of experimental typographic broadsides.",
+        imageUrl: "/works/publication/the-chiefs-daughter-cover.jpg",
+        aspectRatio: "870/1024",
+        description: "Editorial book design, illustrated cover art, and interior page layouts for The Chief's Daughter.",
+        pages: [
+          "/works/publication/page-16.jpg",
+          "/works/publication/page-18.png",
+          "/works/publication/page-31.jpg",
+          "/works/publication/page-36.png",
+        ],
       },
     ],
   },

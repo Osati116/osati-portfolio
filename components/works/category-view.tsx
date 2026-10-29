@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { PortfolioCategory, ProjectItem } from "@/lib/portfolio-data";
 import { renderStackIcon } from "@/components/icons/tech-stack-icons";
@@ -14,7 +14,15 @@ interface CategoryViewProps {
   allCategories: PortfolioCategory[];
 }
 
-function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: () => void }) {
+function ProjectCard({ 
+  project, 
+  onSelect,
+  isPublication,
+}: { 
+  project: ProjectItem; 
+  onSelect: () => void;
+  isPublication?: boolean;
+}) {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: cardRef,
@@ -34,9 +42,9 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
       onClick={onSelect}
       className="group flex flex-col origin-center cursor-pointer"
     >
-      {/* Project Image Card with proportional aspect ratio and sharp 90° corners */}
+      {/* Project Image Card with proportional aspect ratio and borderless styling */}
       <div 
-        className="relative w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center"
+        className="relative w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center rounded-none border-0"
         style={{ 
           aspectRatio,
           backgroundColor: project.bgColor || undefined
@@ -50,8 +58,8 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
           priority
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className={cn(
-            "transition-transform duration-700 group-hover:scale-105",
-            project.bgColor ? "object-contain" : "object-cover object-top"
+            "transition-transform duration-700 group-hover:scale-105 rounded-none border-0",
+            project.bgColor || isPublication ? "object-contain" : "object-cover object-top"
           )}
         />
         <div className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono tracking-wider">
@@ -67,7 +75,7 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
           </h3>
           <ArrowUpRight className="w-4 h-4 text-black dark:text-white shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
-        {project.description ? (
+        {project.description && !isPublication ? (
           <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2">
             {project.description}
           </p>
@@ -77,9 +85,139 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
   );
 }
 
+function PublicationGallery({
+  pages,
+  onClose,
+}: {
+  pages: string[];
+  onClose: () => void;
+}) {
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(pages.length > 1);
+
+  const updateScrollButtons = React.useCallback(() => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 24);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 24);
+  }, []);
+
+  const scrollByStep = (direction: number) => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const step = container.clientHeight * (870 / 1024) + 40;
+    container.scrollBy({ left: direction * step, behavior: "smooth" });
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (scrollContainerRef.current) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        scrollContainerRef.current.scrollLeft += e.deltaY * 1.25;
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        scrollByStep(1);
+      } else if (e.key === "ArrowLeft") {
+        scrollByStep(-1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  React.useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    updateScrollButtons();
+    container.addEventListener("scroll", updateScrollButtons, { passive: true });
+    return () => container.removeEventListener("scroll", updateScrollButtons);
+  }, [updateScrollButtons]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/94 dark:bg-black/96 backdrop-blur-md select-none overflow-hidden"
+      onClick={onClose}
+    >
+      {/* Minimal Floating Pure 'X' Close Button - Turns Red on Hover */}
+      <button
+        onClick={onClose}
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[120] p-2.5 text-white/70 hover:text-red-500 transition-colors duration-75 cursor-pointer bg-transparent border-0 outline-none group"
+        aria-label="Close publication gallery"
+        data-cursor-close="true"
+      >
+        <X className="w-6 h-6 sm:w-7 sm:h-7 transition-colors duration-75 group-hover:text-red-500" />
+      </button>
+
+      {/* Floating Left Chevron */}
+      {canScrollLeft && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            scrollByStep(-1);
+          }}
+          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-[110] p-3 text-white/50 hover:text-white hover:scale-110 transition-all duration-150 cursor-pointer bg-black/40 hover:bg-black/70 rounded-full border-0 outline-none backdrop-blur-xs"
+          aria-label="Previous page"
+        >
+          <ChevronLeft className="w-7 h-7 sm:w-8 sm:h-8" />
+        </button>
+      )}
+
+      {/* Floating Right Chevron */}
+      {canScrollRight && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            scrollByStep(1);
+          }}
+          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-[110] p-3 text-white/50 hover:text-white hover:scale-110 transition-all duration-150 cursor-pointer bg-black/40 hover:bg-black/70 rounded-full border-0 outline-none backdrop-blur-xs"
+          aria-label="Next page"
+        >
+          <ChevronRight className="w-7 h-7 sm:w-8 sm:h-8" />
+        </button>
+      )}
+
+      {/* Horizontal Minimal Scrollable Gallery (Zero Borders, Zero Text, Native Aspect Ratio) */}
+      <div
+        ref={scrollContainerRef}
+        onClick={(e) => e.stopPropagation()}
+        onWheel={handleWheel}
+        className="w-full h-full flex items-center gap-6 sm:gap-10 md:gap-14 px-8 sm:px-16 md:px-24 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+      >
+        {pages.map((pageSrc, idx) => (
+          <div
+            key={pageSrc}
+            className="snap-center shrink-0 flex items-center justify-center h-[76vh] sm:h-[82vh] md:h-[86vh] max-h-[900px] aspect-[870/1024] relative shadow-2xl rounded-none border-0 overflow-hidden cursor-default"
+          >
+            <Image
+              src={pageSrc}
+              alt=""
+              width={870}
+              height={1024}
+              unoptimized
+              priority={idx < 2}
+              sizes="90vh"
+              className="h-full w-auto max-h-[86vh] object-contain block select-none rounded-none border-0"
+            />
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 export function CategoryView({ category, allCategories }: CategoryViewProps) {
   const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
   const isIllustration = category.slug === "illustration";
+  const isPublication = category.slug === "publication";
   const headerRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -203,6 +341,18 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
             </motion.div>
           ))}
         </div>
+      ) : isPublication ? (
+        /* Single Featured Publication Cover Card */
+        <div className="max-w-xs sm:max-w-sm md:max-w-md">
+          {category.projects.map((project) => (
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              onSelect={() => setSelectedProject(project)}
+              isPublication={true}
+            />
+          ))}
+        </div>
       ) : (
         <div className="grid gap-5 sm:gap-6 items-start grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {category.projects.map((project) => (
@@ -260,6 +410,13 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                 />
               </motion.div>
             </motion.div>
+          ) : isPublication && selectedProject.pages && selectedProject.pages.length > 0 ? (
+            /* Horizontal Minimal Scrollable Gallery (Zero Borders, Zero Text, Native Aspect Ratio) */
+            <PublicationGallery
+              key={`publication-gallery-${selectedProject.id}`}
+              pages={selectedProject.pages}
+              onClose={() => setSelectedProject(null)}
+            />
           ) : (
           <motion.div
             key={`modal-backdrop-${selectedProject.id}`}
