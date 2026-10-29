@@ -27,6 +27,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   if (!category) {
     notFound();
+    return null;
   }
 
   return (

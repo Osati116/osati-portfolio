@@ -79,6 +79,7 @@ function ProjectCard({ project, onSelect }: { project: ProjectItem; onSelect: ()
 
 export function CategoryView({ category, allCategories }: CategoryViewProps) {
   const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
+  const isIllustration = category.slug === "illustration";
   const headerRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -88,11 +89,22 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
   const headerScale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.85], [0.4, 1]);
 
-  // Handle ESC key to dismiss modal
+  // Handle ESC and Arrow keys for modal
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSelectedProject(null);
+      } else if (isIllustration && selectedProject) {
+        const currentIndex = category.projects.findIndex((p) => p.id === selectedProject.id);
+        if (currentIndex !== -1) {
+          if (e.key === "ArrowRight") {
+            const nextIndex = (currentIndex + 1) % category.projects.length;
+            setSelectedProject(category.projects[nextIndex]);
+          } else if (e.key === "ArrowLeft") {
+            const prevIndex = (currentIndex - 1 + category.projects.length) % category.projects.length;
+            setSelectedProject(category.projects[prevIndex]);
+          }
+        }
       }
     };
     if (selectedProject) {
@@ -108,7 +120,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       document.body.classList.remove("modal-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedProject]);
+  }, [selectedProject, isIllustration, category.projects]);
 
   return (
     <div className="w-full">
@@ -160,24 +172,95 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       </motion.div>
 
       {/* Projects Grid with Proportional Responsive Layout */}
-      <div className={cn(
-        "grid gap-5 sm:gap-6 items-start",
-        category.slug === "illustration"
-          ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-      )}>
-        {category.projects.map((project) => (
-          <ProjectCard 
-            key={project.id} 
-            project={project} 
-            onSelect={() => setSelectedProject(project)}
-          />
-        ))}
-      </div>
+      {isIllustration ? (
+        /* Tight Gallery View (Google Photos / Phone Camera Roll style with 0 clipping) */
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2 md:gap-2.5">
+          {category.projects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25, delay: idx * 0.04 }}
+              onClick={() => setSelectedProject(project)}
+              className="group relative cursor-pointer overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-2xs hover:shadow-md transition-all duration-300 flex items-center justify-center rounded-sm"
+              style={{
+                aspectRatio: project.aspectRatio || "1/1",
+                backgroundColor: project.bgColor || undefined,
+              }}
+            >
+              <Image
+                src={project.imageUrl}
+                alt={project.title}
+                width={1024}
+                height={1024}
+                unoptimized
+                priority={idx < 4}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              {/* Clean minimal hover illumination */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 dark:group-hover:bg-white/5 transition-colors pointer-events-none" />
+            </motion.div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid gap-5 sm:gap-6 items-start grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {category.projects.map((project) => (
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              onSelect={() => setSelectedProject(project)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Immersive Project Lightbox Modal with Backdrop */}
       <AnimatePresence>
         {selectedProject && (
+          isIllustration ? (
+            /* Minimalist Maximized Artwork View (Shows ONLY the Image, original aspect ratio, no clipping) */
+            <motion.div
+              key={`illustration-maximized-${selectedProject.id}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 md:p-8 bg-black/92 dark:bg-black/95 backdrop-blur-md cursor-zoom-out select-none"
+              onClick={() => setSelectedProject(null)}
+            >
+              {/* Minimal Floating Pure 'X' Close Button */}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] p-2.5 text-white/70 hover:text-red-500 transition-colors duration-75 cursor-pointer bg-transparent border-0 group"
+                aria-label="Close maximized view"
+                data-cursor-close="true"
+              >
+                <X className="w-6 h-6 sm:w-7 sm:h-7 transition-colors duration-75 group-hover:text-red-500" />
+              </button>
+
+              {/* Maximized Image (Original Aspect Ratio, No Clipping) */}
+              <motion.div
+                initial={{ scale: 0.94, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.94, opacity: 0 }}
+                transition={{ type: "spring", damping: 28, stiffness: 350 }}
+                className="relative max-w-[94vw] max-h-[92vh] flex items-center justify-center cursor-default"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Image
+                  src={selectedProject.imageUrl}
+                  alt={selectedProject.title}
+                  width={1400}
+                  height={1400}
+                  unoptimized
+                  priority
+                  sizes="95vw"
+                  className="max-h-[90vh] max-w-[94vw] w-auto h-auto object-contain block shadow-2xl rounded-sm"
+                />
+              </motion.div>
+            </motion.div>
+          ) : (
           <motion.div
             key={`modal-backdrop-${selectedProject.id}`}
             initial={{ opacity: 0 }}
@@ -385,6 +468,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
               </div>
             )}
           </motion.div>
+          )
         )}
       </AnimatePresence>
 
