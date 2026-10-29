@@ -95,25 +95,43 @@ function PublicationGallery({
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(pages.length > 1);
+  const [centerPadding, setCenterPadding] = React.useState<number>(32);
 
-  const updateScrollButtons = React.useCallback(() => {
+  const updatePaddingAndButtons = React.useCallback(() => {
     if (!scrollContainerRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    const container = scrollContainerRef.current;
+    const firstItem = container.querySelector("[data-page-item]") as HTMLElement | null;
+    if (firstItem && firstItem.offsetWidth > 0) {
+      const itemWidth = firstItem.offsetWidth;
+      const gap = 12; // very minimal gap (md:gap-3)
+      const totalContentWidth = itemWidth * pages.length + gap * (pages.length - 1);
+
+      if (totalContentWidth <= container.clientWidth) {
+        // All pages fit on screen: center the entire set
+        setCenterPadding(Math.max(16, (container.clientWidth - totalContentWidth) / 2));
+      } else {
+        // Pages overflow screen: center each snapped page in viewport
+        setCenterPadding(Math.max(16, (container.clientWidth - itemWidth) / 2));
+      }
+    }
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
     setCanScrollLeft(scrollLeft > 24);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 24);
-  }, []);
+  }, [pages.length]);
 
   const scrollByStep = (direction: number) => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
-    const step = container.clientHeight * (870 / 1024) + 40;
+    const firstItem = container.querySelector("[data-page-item]") as HTMLElement | null;
+    const step = firstItem ? firstItem.offsetWidth + 12 : container.clientHeight * (870 / 1024) + 12;
     container.scrollBy({ left: direction * step, behavior: "smooth" });
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (scrollContainerRef.current) {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        scrollContainerRef.current.scrollLeft += e.deltaY * 1.25;
+        scrollContainerRef.current.scrollLeft += e.deltaY * 1.15;
       }
     }
   };
@@ -133,10 +151,18 @@ function PublicationGallery({
   React.useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
-    updateScrollButtons();
-    container.addEventListener("scroll", updateScrollButtons, { passive: true });
-    return () => container.removeEventListener("scroll", updateScrollButtons);
-  }, [updateScrollButtons]);
+    
+    // Initial calculation with a micro delay for layout paint
+    const timer = setTimeout(updatePaddingAndButtons, 40);
+    window.addEventListener("resize", updatePaddingAndButtons);
+    container.addEventListener("scroll", updatePaddingAndButtons, { passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updatePaddingAndButtons);
+      container.removeEventListener("scroll", updatePaddingAndButtons);
+    };
+  }, [updatePaddingAndButtons]);
 
   return (
     <motion.div
@@ -164,10 +190,10 @@ function PublicationGallery({
             e.stopPropagation();
             scrollByStep(-1);
           }}
-          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-[110] p-3 text-white/50 hover:text-white hover:scale-110 transition-all duration-150 cursor-pointer bg-black/40 hover:bg-black/70 rounded-full border-0 outline-none backdrop-blur-xs"
+          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-[110] p-2.5 text-white/50 hover:text-white hover:scale-110 transition-all duration-150 cursor-pointer bg-black/40 hover:bg-black/70 rounded-full border-0 outline-none backdrop-blur-xs"
           aria-label="Previous page"
         >
-          <ChevronLeft className="w-7 h-7 sm:w-8 sm:h-8" />
+          <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7" />
         </button>
       )}
 
@@ -178,24 +204,29 @@ function PublicationGallery({
             e.stopPropagation();
             scrollByStep(1);
           }}
-          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-[110] p-3 text-white/50 hover:text-white hover:scale-110 transition-all duration-150 cursor-pointer bg-black/40 hover:bg-black/70 rounded-full border-0 outline-none backdrop-blur-xs"
+          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-[110] p-2.5 text-white/50 hover:text-white hover:scale-110 transition-all duration-150 cursor-pointer bg-black/40 hover:bg-black/70 rounded-full border-0 outline-none backdrop-blur-xs"
           aria-label="Next page"
         >
-          <ChevronRight className="w-7 h-7 sm:w-8 sm:h-8" />
+          <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
         </button>
       )}
 
-      {/* Horizontal Minimal Scrollable Gallery (Zero Borders, Zero Text, Native Aspect Ratio) */}
+      {/* Centralized Horizontal Minimal Scrollable Gallery (Zero Borders, Zero Text, Native Aspect Ratio, Tight Spacing) */}
       <div
         ref={scrollContainerRef}
         onClick={(e) => e.stopPropagation()}
         onWheel={handleWheel}
-        className="w-full h-full flex items-center gap-6 sm:gap-10 md:gap-14 px-8 sm:px-16 md:px-24 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        style={{
+          paddingLeft: `${centerPadding}px`,
+          paddingRight: `${centerPadding}px`,
+        }}
+        className="w-full flex items-center gap-2 sm:gap-2.5 md:gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
       >
         {pages.map((pageSrc, idx) => (
           <div
             key={pageSrc}
-            className="snap-center shrink-0 flex items-center justify-center h-[76vh] sm:h-[82vh] md:h-[86vh] max-h-[900px] aspect-[870/1024] relative shadow-2xl rounded-none border-0 overflow-hidden cursor-default"
+            data-page-item="true"
+            className="snap-center shrink-0 flex items-center justify-center h-[52vh] sm:h-[57vh] md:h-[60vh] max-h-[620px] aspect-[870/1024] relative shadow-2xl rounded-none border-0 overflow-hidden cursor-default"
           >
             <Image
               src={pageSrc}
@@ -204,8 +235,8 @@ function PublicationGallery({
               height={1024}
               unoptimized
               priority={idx < 2}
-              sizes="90vh"
-              className="h-full w-auto max-h-[86vh] object-contain block select-none rounded-none border-0"
+              sizes="65vh"
+              className="h-full w-auto max-h-[60vh] object-contain block select-none rounded-none border-0"
             />
           </div>
         ))}
@@ -342,8 +373,8 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
           ))}
         </div>
       ) : isPublication ? (
-        /* Single Featured Publication Cover Card */
-        <div className="max-w-xs sm:max-w-sm md:max-w-md">
+        /* Single Featured Publication Cover Card (Reduced 30%) */
+        <div className="w-full max-w-[224px] sm:max-w-[268px] md:max-w-[314px]">
           {category.projects.map((project) => (
             <ProjectCard 
               key={project.id} 
