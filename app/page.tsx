@@ -10,32 +10,58 @@ import { ConnectSection } from "@/components/sections/connect-section";
 import { FooterSection } from "@/components/sections/footer-section";
 
 export default function HomePage() {
-  // Ensure the website always boots at the top Home section
+  // Sitewide scroll restoration: return to exact explored position or boot to top
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Disable browser automatic scroll restoration to prevent booting mid-page
-      if ("scrollRestoration" in window.history) {
-        window.history.scrollRestoration = "manual";
-      }
+    if (typeof window === "undefined") return;
 
-      // If landing on root or with stale #home/#works hash on boot, reset to top
-      const hash = window.location.hash;
-      if (!hash || hash === "#" || hash === "#home" || hash === "#works") {
-        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-        if (hash) {
-          window.history.replaceState(null, "", window.location.pathname);
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    const hash = window.location.hash;
+    let savedY: string | null = null;
+    try {
+      savedY = sessionStorage.getItem("scroll_pos_/");
+    } catch {
+      // Ignore
+    }
+
+    // 1. If landing with specific anchor hash (e.g. #works, #stack, #about, #connect)
+    if (hash && hash !== "#" && hash !== "#home") {
+      const targetId = hash.replace("#", "");
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
         }
-      } else {
-        // Specific deep-link hash requested (e.g. #works, #stack, #about, #connect)
-        const targetId = hash.replace("#", "");
-        const timer = setTimeout(() => {
-          const el = document.getElementById(targetId);
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth" });
-          }
-        }, 100);
-        return () => clearTimeout(timer);
-      }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+
+    // 2. If returning from exploring a category, restore exact scroll coordinate
+    if (savedY && parseFloat(savedY) > 0) {
+      const targetY = parseFloat(savedY);
+      const restore = () => {
+        window.scrollTo({ top: targetY, left: 0, behavior: "instant" });
+      };
+
+      restore();
+      const r1 = requestAnimationFrame(restore);
+      const t1 = setTimeout(restore, 40);
+      const t2 = setTimeout(restore, 120);
+      const t3 = setTimeout(restore, 280);
+
+      return () => {
+        cancelAnimationFrame(r1);
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
+    }
+
+    // 3. Fresh session or explicit boot to top
+    if (!hash || hash === "#" || hash === "#home") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
   }, []);
 

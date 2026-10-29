@@ -20,6 +20,13 @@ export function FooterSection() {
 
   const scrollTo = (id: string) => {
     if (id === "home") {
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("scroll_pos_/", "0");
+        } catch {
+          // Ignore
+        }
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
       window.history.replaceState(null, "", "/");
       return;

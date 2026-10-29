@@ -45,6 +45,13 @@ export function Navbar() {
   const scrollTo = (sectionId: string) => {
     setMobileMenuOpen(false);
     if (sectionId === "home") {
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("scroll_pos_/", "0");
+        } catch {
+          // Ignore
+        }
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
       window.history.replaceState(null, "", "/");
       setActiveSection("home");

@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { PortfolioCategory, ProjectItem } from "@/lib/portfolio-data";
@@ -249,12 +250,29 @@ function PublicationGallery({
 }
 
 export function CategoryView({ category, allCategories }: CategoryViewProps) {
+  const router = useRouter();
   const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
   const isIllustration = category.slug === "illustration";
   const isPublication = category.slug === "publication";
   const isCreativeMarketing = category.slug === "creative-and-marketing-design" || category.slug === "marketing-design";
   const isGalleryStyle = isIllustration || isCreativeMarketing;
   const headerRef = React.useRef<HTMLDivElement>(null);
+
+  const handleBack = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.setItem("is_returning_from_subpage", "true");
+      } catch {
+        // Ignore
+      }
+      if (window.history.length > 1) {
+        router.back();
+      } else {
+        router.push("/");
+      }
+    }
+  };
   const { scrollYProgress } = useScroll({
     target: headerRef,
     offset: ["start end", "center center"],
@@ -300,13 +318,14 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
     <div className="w-full">
       {/* Navigation Breadcrumb & Back Link */}
       <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
-        <Link
-          href="/"
+        <button
+          type="button"
+          onClick={handleBack}
           className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black dark:border-neutral-800 bg-transparent text-xs xanh-mono-regular text-black dark:text-neutral-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
           <span>Back to Home</span>
-        </Link>
+        </button>
 
         {/* Category Switcher Tabs */}
         <div className="flex flex-wrap items-center gap-2">

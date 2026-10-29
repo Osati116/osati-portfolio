@@ -230,6 +230,16 @@ export function WorksSection() {
             <Link
               key={category.slug}
               href={`/works/${category.slug}`}
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  try {
+                    sessionStorage.setItem("scroll_pos_/", window.scrollY.toString());
+                    sessionStorage.setItem("last_tapped_category", category.slug);
+                  } catch {
+                    // Ignore
+                  }
+                }
+              }}
               className="group flex flex-col cursor-pointer transition-transform active:scale-[0.99]"
             >
               {/* Image Card Container */}
