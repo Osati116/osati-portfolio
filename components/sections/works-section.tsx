@@ -159,6 +159,57 @@ function WebDesignAnimatedCard() {
   );
 }
 
+const PUBLICATION_WORDS = ["BOLD", "TYPOGRAPHY", "PUBLICATIONS"];
+
+function PublicationAnimatedCard() {
+  const [wordIndex, setWordIndex] = React.useState(0);
+  const [displayText, setDisplayText] = React.useState("");
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  React.useEffect(() => {
+    const currentWord = PUBLICATION_WORDS[wordIndex];
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting) {
+      if (displayText.length < currentWord.length) {
+        // Typing forward: crisp ~110ms per letter
+        timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        }, 110);
+      } else {
+        // Full word typed: pause so visitor comfortably reads it
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 1400);
+      }
+    } else {
+      if (displayText.length > 0) {
+        // Backspacing: fast ~45ms per letter
+        timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length - 1));
+        }, 45);
+      } else {
+        // Erased: pause briefly, then advance to next word
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+          setWordIndex((prev) => (prev + 1) % PUBLICATION_WORDS.length);
+        }, 280);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, wordIndex]);
+
+  return (
+    <div className="relative aspect-[16/11] w-full overflow-hidden bg-white text-black p-4 flex items-center justify-center transition-all duration-300 group-hover:shadow-md origin-center select-none">
+      <div className="flex items-center justify-center font-adventor font-bold text-xl sm:text-2xl md:text-xl lg:text-[1.3rem] xl:text-[1.6rem] uppercase tracking-tight text-black leading-none whitespace-nowrap min-h-[1.2em]">
+        <span>{displayText}</span>
+        <span className="inline-block w-[2.5px] h-[0.88em] bg-black ml-1.5 align-middle animate-cursor" />
+      </div>
+    </div>
+  );
+}
+
 export function WorksSection() {
   const sectionRef = React.useRef<HTMLElement>(null);
   const { scale, opacity } = useSectionScrollTransition(sectionRef);
@@ -189,17 +240,7 @@ export function WorksSection() {
               ) : category.slug === "web-design" ? (
                 <WebDesignAnimatedCard />
               ) : category.slug === "publication" ? (
-                <div 
-                  className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"
-                >
-                  <Image
-                    src={category.coverImage}
-                    alt={category.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
+                <PublicationAnimatedCard />
               ) : (
                 <div 
                   className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"
