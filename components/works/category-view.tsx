@@ -373,15 +373,16 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
           ))}
         </div>
       ) : isPublication ? (
-        /* Single Featured Publication Cover Card (Reduced 30%) */
-        <div className="w-full max-w-[224px] sm:max-w-[268px] md:max-w-[314px]">
+        /* Publication Covers (Reduced 30%, Side-by-Side Flex Layout) */
+        <div className="flex flex-wrap gap-6 sm:gap-8 md:gap-10 items-start">
           {category.projects.map((project) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              onSelect={() => setSelectedProject(project)}
-              isPublication={true}
-            />
+            <div key={project.id} className="w-full max-w-[224px] sm:max-w-[268px] md:max-w-[314px]">
+              <ProjectCard 
+                project={project} 
+                onSelect={() => setSelectedProject(project)}
+                isPublication={true}
+              />
+            </div>
           ))}
         </div>
       ) : (
@@ -399,10 +400,10 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       {/* Immersive Project Lightbox Modal with Backdrop */}
       <AnimatePresence>
         {selectedProject && (
-          isIllustration ? (
-            /* Minimalist Maximized Artwork View (Shows ONLY the Image, original aspect ratio, no clipping) */
+          isIllustration || (isPublication && (!selectedProject.pages || selectedProject.pages.length === 0)) ? (
+            /* Minimalist Maximized Artwork / Cover View (Shows ONLY the Image, original aspect ratio, no clipping, zero borders, zero text) */
             <motion.div
-              key={`illustration-maximized-${selectedProject.id}`}
+              key={`maximized-${selectedProject.id}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -413,20 +414,20 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
               {/* Minimal Floating Pure 'X' Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] p-2.5 text-white/70 hover:text-red-500 transition-colors duration-75 cursor-pointer bg-transparent border-0 group"
+                className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[110] p-2.5 text-white/70 hover:text-red-500 transition-colors duration-75 cursor-pointer bg-transparent border-0 outline-none group"
                 aria-label="Close maximized view"
                 data-cursor-close="true"
               >
                 <X className="w-6 h-6 sm:w-7 sm:h-7 transition-colors duration-75 group-hover:text-red-500" />
               </button>
 
-              {/* Maximized Image (Original Aspect Ratio, No Clipping) */}
+              {/* Maximized Image (Original Aspect Ratio, No Clipping, Zero Borders) */}
               <motion.div
                 initial={{ scale: 0.94, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.94, opacity: 0 }}
                 transition={{ type: "spring", damping: 28, stiffness: 350 }}
-                className="relative max-w-[94vw] max-h-[92vh] flex items-center justify-center cursor-default"
+                className="relative max-w-[94vw] max-h-[92vh] flex items-center justify-center cursor-default rounded-none border-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 <Image
@@ -437,7 +438,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
                   unoptimized
                   priority
                   sizes="95vw"
-                  className="max-h-[90vh] max-w-[94vw] w-auto h-auto object-contain block shadow-2xl rounded-sm"
+                  className="max-h-[90vh] max-w-[94vw] w-auto h-auto object-contain block shadow-2xl rounded-none border-0"
                 />
               </motion.div>
             </motion.div>

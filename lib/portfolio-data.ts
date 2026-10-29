@@ -190,6 +190,14 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
           "/works/publication/page-36.png",
         ],
       },
+      {
+        id: "pb-charis-cover-design",
+        title: "Cover Design",
+        year: "2024",
+        imageUrl: "/works/publication/charis-cover.jpg",
+        aspectRatio: "721/1024",
+        description: "Editorial cover design and visual typography for Charis Magazine.",
+      },
     ],
   },
 ];
