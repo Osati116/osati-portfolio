@@ -151,6 +151,19 @@ function LinktreeFullColorLogo({ className = "w-8 h-8" }: { className?: string }
   );
 }
 
+// Official Substack Logo (Vibrant Substack Orange Squircle with Crisp White Emblem)
+function SubstackFullColorLogo({ className = "w-8 h-8" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} role="img" aria-label="Substack">
+      {/* Official Substack Orange Squircle Tile matching Instagram, Gmail, X, and Linktree */}
+      <rect width="24" height="24" rx="5.5" fill="#FF6719" />
+      <g transform="translate(4.8, 4.8) scale(0.6)" fill="#FFFFFF">
+        <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" />
+      </g>
+    </svg>
+  );
+}
+
 // Configurable channels - URLs will be replaced once provided by user
 export const CONNECT_CHANNELS: ConnectChannel[] = [
   {
@@ -176,6 +189,14 @@ export const CONNECT_CHANNELS: ConnectChannel[] = [
     href: "https://x.com",
     actionText: "Follow",
     icon: XFullColorLogo,
+  },
+  {
+    id: "substack",
+    name: "Substack",
+    handle: "osati.substack.com",
+    href: "https://osati.substack.com/",
+    actionText: "Read",
+    icon: SubstackFullColorLogo,
   },
   {
     id: "linktree",
@@ -214,8 +235,8 @@ export function ConnectSection() {
           </p>
         </div>
 
-        {/* Compact 4-Column Connect Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl">
+        {/* Responsive 5-Column Connect Grid (Matching 5-Column Works Rhythm) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 max-w-6xl">
           {CONNECT_CHANNELS.map((channel) => {
             const Icon = channel.icon;
             const isEmail = channel.href.startsWith("mailto:");
