@@ -397,16 +397,34 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
           ))}
         </div>
       ) : isPublication ? (
-        /* Publication Covers (Reduced 30%, Side-by-Side Flex Layout) */
-        <div className="flex flex-wrap gap-6 sm:gap-8 md:gap-10 items-start">
-          {category.projects.map((project) => (
-            <div key={project.id} className="w-full max-w-[224px] sm:max-w-[268px] md:max-w-[314px]">
-              <ProjectCard 
-                project={project} 
-                onSelect={() => setSelectedProject(project)}
-                isPublication={true}
+        /* Publication Covers: Tight Spacing, Zero Text, Native Aspect Ratio, Borderless */
+        <div className="flex flex-wrap gap-2 sm:gap-2.5 md:gap-3 items-start">
+          {category.projects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25, delay: idx * 0.04 }}
+              onClick={() => setSelectedProject(project)}
+              className="w-[calc(50%-4px)] sm:w-auto sm:max-w-[220px] md:max-w-[250px] lg:max-w-[270px] group relative cursor-pointer overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-2xs hover:shadow-md transition-all duration-300 flex items-center justify-center rounded-sm"
+              style={{
+                aspectRatio: project.aspectRatio || "721/1024",
+                backgroundColor: project.bgColor || undefined,
+              }}
+            >
+              <Image
+                src={project.imageUrl}
+                alt={project.title}
+                width={870}
+                height={1024}
+                unoptimized
+                priority={idx < 3}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
               />
-            </div>
+              {/* Clean minimal hover illumination */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 dark:group-hover:bg-white/5 transition-colors pointer-events-none" />
+            </motion.div>
           ))}
         </div>
       ) : (
