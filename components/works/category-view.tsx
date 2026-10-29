@@ -44,7 +44,10 @@ function ProjectCard({
     >
       {/* Project Image Card with proportional aspect ratio and borderless styling */}
       <div 
-        className="relative w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-md origin-center rounded-none border-0"
+        className={cn(
+          "relative w-full overflow-hidden shadow-xs transition-all duration-300 group-hover:shadow-md origin-center rounded-none border-0 flex items-center justify-center",
+          project.bgColor ? "p-2.5 sm:p-3" : "bg-neutral-100 dark:bg-neutral-900"
+        )}
         style={{ 
           aspectRatio,
           backgroundColor: project.bgColor || undefined

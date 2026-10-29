@@ -187,7 +187,19 @@ export function WorksSection() {
               ) : category.slug === "illustration" ? (
                 <IllustrationAnimatedCard />
               ) : category.slug === "web-design" ? (
-                <WebDesignAnimatedCard />
+                <div 
+                  className="relative aspect-[16/11] w-full overflow-hidden bg-[#001122] dark:bg-[#000e1a] transition-all duration-300 group-hover:shadow-md origin-center flex items-center justify-center p-2.5 sm:p-3"
+                >
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <Image
+                      src={category.coverImage}
+                      alt={category.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+                      className="object-contain transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
               ) : (
                 <div 
                   className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"
