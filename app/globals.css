@@ -80,6 +80,7 @@
   --ring: #d4d4d8;
 }
 
+html[data-scroll-behavior="smooth"],
 html {
   scroll-behavior: smooth;
 }
