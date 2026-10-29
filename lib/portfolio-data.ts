@@ -193,7 +193,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     slug: "publication",
     name: "Publication",
     tag: ".../2026",
-    coverImage: "/works/publication/the-chiefs-daughter-cover.jpg",
+    coverImage: "/works/publication/charis-cover.jpg",
     subtitle: "Editorial book design & story layout",
     description: "Curated editorial book design, custom cover illustration, typographic interior layouts, and illustrated story pages.",
     projects: [

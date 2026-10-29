@@ -191,20 +191,20 @@ export const CONNECT_CHANNELS: ConnectChannel[] = [
     icon: XFullColorLogo,
   },
   {
-    id: "substack",
-    name: "Substack",
-    handle: "osati.substack.com",
-    href: "https://osati.substack.com/",
-    actionText: "Read",
-    icon: SubstackFullColorLogo,
-  },
-  {
     id: "linktree",
     name: "Linktree",
     handle: "linktr.ee/osati116",
     href: "https://linktr.ee/osati116",
     actionText: "Connect",
     icon: LinktreeFullColorLogo,
+  },
+  {
+    id: "substack",
+    name: "Substack",
+    handle: "osati.substack.com",
+    href: "https://osati.substack.com/",
+    actionText: "Read",
+    icon: SubstackFullColorLogo,
   },
 ];
 

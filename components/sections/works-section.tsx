@@ -186,6 +186,20 @@ export function WorksSection() {
                 <BrandIdentityAnimatedCard />
               ) : category.slug === "illustration" ? (
                 <IllustrationAnimatedCard />
+              ) : category.slug === "web-design" ? (
+                <WebDesignAnimatedCard />
+              ) : category.slug === "publication" ? (
+                <div 
+                  className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"
+                >
+                  <Image
+                    src={category.coverImage}
+                    alt={category.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
               ) : (
                 <div 
                   className="relative aspect-[16/11] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 transition-all duration-300 group-hover:shadow-md origin-center"

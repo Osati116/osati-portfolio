@@ -40,12 +40,17 @@ export function AboutSection() {
         style={{ scale, opacity }} 
         className="origin-center w-full will-change-transform"
       >
-        {/* Newspaper Editorial Layout: Floated portrait on left, wrapped bio text shifting to right */}
+        {/* Newspaper Editorial Layout: Floated portrait on left on desktop, stacked above text on mobile */}
         <div className="clearfix mb-14 sm:mb-18">
-          {/* Floated Portrait on the Left (Newspaper / Broadsheet Style) */}
+          {/* Mobile Header: sits cleanly above the picture and all bio text */}
+          <h2 className="block sm:hidden text-3xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular not-italic mb-6 leading-[1.1]">
+            About Me
+          </h2>
+
+          {/* Floated Portrait: Stacked above text on mobile (float-none), floated on left on desktop (sm:float-left) */}
           <div 
             onClick={() => setSelectedPhoto(LEAD_PORTRAIT)}
-            className="float-left mr-6 sm:mr-10 md:mr-12 mb-5 sm:mb-8 w-44 sm:w-64 md:w-72 lg:w-80 group cursor-pointer"
+            className="float-none sm:float-left mr-0 sm:mr-10 md:mr-12 mb-6 sm:mb-8 w-full max-w-[280px] sm:max-w-none sm:w-64 md:w-72 lg:w-80 group cursor-pointer"
           >
             {/* Portrait Container with sharp 90° corners & no border stroke */}
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900 shadow-xs transition-all duration-300 group-hover:shadow-lg">
@@ -54,7 +59,7 @@ export function AboutSection() {
                 alt={LEAD_PORTRAIT.title}
                 fill
                 priority
-                sizes="(max-width: 640px) 176px, (max-width: 1024px) 288px, 320px"
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 288px, 320px"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               {/* Subtle hover overlay */}
@@ -72,10 +77,10 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Shifted Text to the Right with Fluid Newspaper Text Wrap */}
+          {/* Bio Text: Stacks below picture on mobile, wraps alongside on desktop */}
           <div>
-            {/* Header */}
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular not-italic mb-4 sm:mb-6 leading-[1.1]">
+            {/* Desktop Header: Aligns with portrait top in newspaper broadsheet style */}
+            <h2 className="hidden sm:block text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-black dark:text-white xanh-mono-regular not-italic mb-4 sm:mb-6 leading-[1.1]">
               About Me
             </h2>
             
