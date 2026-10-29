@@ -171,7 +171,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
   {
     slug: "publication",
     name: "Publication",
-    tag: ".../2024",
+    tag: ".../2026",
     coverImage: "/works/publication/the-chiefs-daughter-cover.jpg",
     subtitle: "Editorial book design & story layout",
     description: "Curated editorial book design, custom cover illustration, typographic interior layouts, and illustrated story pages.",
@@ -179,7 +179,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
       {
         id: "pb-the-chiefs-daughter",
         title: "The Chief's Daughter",
-        year: "2024",
+        year: "2026",
         imageUrl: "/works/publication/the-chiefs-daughter-cover.jpg",
         aspectRatio: "870/1024",
         description: "Editorial book design, illustrated cover art, and interior page layouts for The Chief's Daughter.",
@@ -193,7 +193,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
       {
         id: "pb-charis-cover-design",
         title: "Cover Design",
-        year: "2024",
+        year: "2026",
         imageUrl: "/works/publication/charis-cover.jpg",
         aspectRatio: "721/1024",
         description: "Editorial cover design and visual typography for Charis Magazine.",
