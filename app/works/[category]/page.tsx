@@ -18,6 +18,7 @@ export function generateStaticParams() {
     ...baseSlugs,
     { category: "fonts" },
     { category: "web" },
+    { category: "marketing-design" },
   ];
 }
 

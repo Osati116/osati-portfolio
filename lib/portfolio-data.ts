@@ -131,40 +131,61 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     ],
   },
   {
-    slug: "marketing-design",
-    name: "Marketing Design",
-    tag: ".../2024",
-    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    subtitle: "Campaigns & Visual rollouts",
-    description: "Comprehensive marketing campaign design, key visuals, digital billboard rollouts, and launch assets driving brand adoption and conversion.",
+    slug: "creative-and-marketing-design",
+    name: "Creative and Marketing Design",
+    tag: ".../2026",
+    coverImage: "/works/creative-marketing/product.png",
+    subtitle: "Campaign flyers & promotional graphics",
+    description: "Promotional event flyers, social media campaigns, brand marketing collateral, and commercial visual designs.",
     projects: [
       {
-        id: "md-1",
-        title: "Chronos Global Launch",
-        year: "2024",
-        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-        description: "Key visuals, outdoor digital displays, and high-impact digital campaign.",
+        id: "cmd-flyer-2",
+        title: "Campaign Flyer",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/flyer-2.png",
+        aspectRatio: "1080/1350",
       },
       {
-        id: "md-2",
-        title: "Nordic Sound Festival Campaign",
-        year: "2024",
-        imageUrl: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
-        description: "Event poster system, experiential signage, and social media collateral.",
+        id: "cmd-celebeens",
+        title: "Celebeens Event Flyer",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/celebeens.png",
+        aspectRatio: "1080/1350",
       },
       {
-        id: "md-3",
-        title: "Lumina Visual Campaign",
-        year: "2023",
-        imageUrl: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1200&q=80",
-        description: "Digital product marketing suite with interactive product showroom teasers.",
+        id: "cmd-ese",
+        title: "Ese Campaign Graphic",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/ese.png",
+        aspectRatio: "1080/1350",
       },
       {
-        id: "md-4",
-        title: "Kinesis Sport Visual Suite",
-        year: "2023",
-        imageUrl: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80",
-        description: "Dynamic athletic brand campaign featuring high-contrast typography in motion.",
+        id: "cmd-birthday",
+        title: "Celebration Flyer",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/birthday-flyer.png",
+        aspectRatio: "1080/1350",
+      },
+      {
+        id: "cmd-product",
+        title: "Product Promotional Graphic",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/product.png",
+        aspectRatio: "1/1",
+      },
+      {
+        id: "cmd-ford",
+        title: "Ford Campaign Graphic",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/ford.png",
+        aspectRatio: "1/1",
+      },
+      {
+        id: "cmd-judah",
+        title: "Judah Brand Flyer",
+        year: "2026",
+        imageUrl: "/works/creative-marketing/judah-1.png",
+        aspectRatio: "1/1",
       },
     ],
   },
@@ -206,6 +227,14 @@ export function getCategoryBySlug(slug: string): PortfolioCategory | undefined {
   const normalized = slug.toLowerCase();
   if (normalized === "fonts" || normalized === "web") {
     return PORTFOLIO_CATEGORIES.find((cat) => cat.slug === "web-design");
+  }
+  if (
+    normalized === "marketing-design" ||
+    normalized === "marketing" ||
+    normalized === "creative-marketing" ||
+    normalized === "creative-and-marketing"
+  ) {
+    return PORTFOLIO_CATEGORIES.find((cat) => cat.slug === "creative-and-marketing-design");
   }
   return PORTFOLIO_CATEGORIES.find((cat) => cat.slug === slug);
 }

@@ -249,6 +249,8 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
   const [selectedProject, setSelectedProject] = React.useState<ProjectItem | null>(null);
   const isIllustration = category.slug === "illustration";
   const isPublication = category.slug === "publication";
+  const isCreativeMarketing = category.slug === "creative-and-marketing-design" || category.slug === "marketing-design";
+  const isGalleryStyle = isIllustration || isCreativeMarketing;
   const headerRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -263,7 +265,7 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSelectedProject(null);
-      } else if (isIllustration && selectedProject) {
+      } else if (isGalleryStyle && selectedProject) {
         const currentIndex = category.projects.findIndex((p) => p.id === selectedProject.id);
         if (currentIndex !== -1) {
           if (e.key === "ArrowRight") {
@@ -341,9 +343,9 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       </motion.div>
 
       {/* Projects Grid with Proportional Responsive Layout */}
-      {isIllustration ? (
-        /* Tight Gallery View (Google Photos / Phone Camera Roll style with 0 clipping) */
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2 md:gap-2.5">
+      {isGalleryStyle ? (
+        /* Tight Gallery View (Google Photos / Phone Camera Roll style with 0 clipping and zero text) */
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2.5 md:gap-3 items-start">
           {category.projects.map((project, idx) => (
             <motion.div
               key={project.id}
@@ -360,8 +362,8 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
               <Image
                 src={project.imageUrl}
                 alt={project.title}
-                width={1024}
-                height={1024}
+                width={1080}
+                height={1350}
                 unoptimized
                 priority={idx < 4}
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -400,8 +402,8 @@ export function CategoryView({ category, allCategories }: CategoryViewProps) {
       {/* Immersive Project Lightbox Modal with Backdrop */}
       <AnimatePresence>
         {selectedProject && (
-          isIllustration || (isPublication && (!selectedProject.pages || selectedProject.pages.length === 0)) ? (
-            /* Minimalist Maximized Artwork / Cover View (Shows ONLY the Image, original aspect ratio, no clipping, zero borders, zero text) */
+          isGalleryStyle || (isPublication && (!selectedProject.pages || selectedProject.pages.length === 0)) ? (
+            /* Minimalist Maximized Artwork / Cover / Flyer View (Shows ONLY the Image, original aspect ratio, no clipping, zero borders, zero text) */
             <motion.div
               key={`maximized-${selectedProject.id}`}
               initial={{ opacity: 0 }}
