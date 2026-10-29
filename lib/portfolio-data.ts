@@ -134,7 +134,7 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
     slug: "creative-and-marketing-design",
     name: "Creative and Marketing Design",
     tag: ".../2026",
-    coverImage: "/works/creative-marketing/product.png",
+    coverImage: "/works/creative-marketing/judah-1.png",
     subtitle: "Campaign flyers & promotional graphics",
     description: "Promotional event flyers, social media campaigns, brand marketing collateral, and commercial visual designs.",
     projects: [
