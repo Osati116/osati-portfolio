@@ -219,6 +219,14 @@ export const PORTFOLIO_CATEGORIES: PortfolioCategory[] = [
         aspectRatio: "721/1024",
         description: "Editorial cover design and visual typography for Charis Magazine.",
       },
+      {
+        id: "pb-qadash-cover-design",
+        title: "Qadash",
+        year: "2026",
+        imageUrl: "/works/publication/qadash-cover.jpg",
+        aspectRatio: "721/1024",
+        description: "Editorial cover design and visual typography for Healing Stream: Qadash.",
+      },
     ],
   },
 ];
