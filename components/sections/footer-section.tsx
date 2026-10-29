@@ -11,7 +11,6 @@ const FOOTER_LINKS = [
   { label: "Works", href: "#works" },
   { label: "Stack", href: "#stack" },
   { label: "About", href: "#about" },
-  { label: "Shop", href: "#shop" },
   { label: "Connect", href: "#connect" },
 ];
 

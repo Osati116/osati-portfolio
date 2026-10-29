@@ -6,7 +6,6 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { WorksSection } from "@/components/sections/works-section";
 import { StackSection } from "@/components/sections/stack-section";
 import { AboutSection } from "@/components/sections/about-section";
-import { ShopSection } from "@/components/sections/shop-section";
 import { ConnectSection } from "@/components/sections/connect-section";
 import { FooterSection } from "@/components/sections/footer-section";
 
@@ -27,7 +26,7 @@ export default function HomePage() {
           window.history.replaceState(null, "", window.location.pathname);
         }
       } else {
-        // Specific deep-link hash requested (e.g. #stack, #about, #shop, #connect)
+        // Specific deep-link hash requested (e.g. #works, #stack, #about, #connect)
         const targetId = hash.replace("#", "");
         const timer = setTimeout(() => {
           const el = document.getElementById(targetId);
@@ -59,10 +58,7 @@ export default function HomePage() {
         {/* Section 03: About Me Bio & Personal Photo Gallery */}
         <AboutSection />
 
-        {/* Section 04: Digital Store & Products */}
-        <ShopSection />
-
-        {/* Section 05: Connect with Me */}
+        {/* Section 04: Connect with Me */}
         <ConnectSection />
 
         {/* Footer & Back-to-Top Navigation */}

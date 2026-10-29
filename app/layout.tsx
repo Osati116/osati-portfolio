@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     default: "Osati | Portfolio & Creative Works",
     template: "%s | Osati",
   },
-  description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah — Creative Director & Brand Strategist.",
+  description: "Personal portfolio, design works, and creative stack of Osahumhen Timothy Iyamah — Creative Director & Brand Strategist.",
   keywords: [
     "Osati",
     "Osahumhen Timothy Iyamah",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     url: "https://osati-portfolio.vercel.app",
     siteName: "Osati Portfolio",
     title: "Osati | Portfolio & Creative Works",
-    description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah — Creative Director & Brand Strategist.",
+    description: "Personal portfolio, design works, and creative stack of Osahumhen Timothy Iyamah — Creative Director & Brand Strategist.",
     images: [
       {
         url: "/portrait.jpg",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Osati | Portfolio & Creative Works",
-    description: "Personal portfolio, design works, creative stack, and studio shop of Osahumhen Timothy Iyamah.",
+    description: "Personal portfolio, design works, and creative stack of Osahumhen Timothy Iyamah.",
     creator: "@osati116",
     images: ["/portrait.jpg"],
   },

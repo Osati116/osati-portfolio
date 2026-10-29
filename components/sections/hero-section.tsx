@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: "Works", href: "#works", tag: "01" },
   { label: "Stack", href: "#stack", tag: "02" },
   { label: "About", href: "#about", tag: "03" },
-  { label: "Shop", href: "#shop", tag: "04" },
+  { label: "Connect", href: "#connect", tag: "04" },
 ];
 
 const ALIEN_GLYPHS = "⍟⏣⌬⍎⍕⍱⍲⍳⍴⍶⍷ᚠᚥᚦᛏᛒᛖᛗᛚᛜᛟᛞᚲꘐꘒꘓꘔꘖ⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⎔⎕⏥⏦⏧⏨Ø∆⌖§¥◊◈◆◇01XZ".split("");

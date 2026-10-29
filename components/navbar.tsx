@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { label: "Works", href: "#works", sectionId: "works" },
   { label: "Stack", href: "#stack", sectionId: "stack" },
   { label: "About", href: "#about", sectionId: "about" },
-  { label: "Shop", href: "#shop", sectionId: "shop" },
   { label: "Connect", href: "#connect", sectionId: "connect" },
 ];
 
@@ -21,7 +20,7 @@ export function Navbar() {
 
   // Active section ScrollSpy tracking sections on scroll
   React.useEffect(() => {
-    const sectionIds = ["home", "works", "stack", "about", "shop", "connect"];
+    const sectionIds = ["home", "works", "stack", "about", "connect"];
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 220; // 220px offset for top viewport recognition
